@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <?php
             // Determinar el mes y la imagen correspondiente
-            $mes = 'septiembre'; 
+            setlocale(LC_TIME, 'es_ES.UTF-8');  
+            $mes = strftime('%B'); 
             $imagen = '';
 
             switch ($mes) {
@@ -28,7 +29,7 @@
                     break;
             }
 
-            $hora = '14:30';
+            $hora = date('H:i');
             $colorFondo = '';
 
             if ($hora >= '06:00' && $hora < '09:00') {
@@ -43,17 +44,21 @@
                 $colorFondo = '#0d0d47';
             }
 
+
     ?>
 </head>
-<body style="background:<?php echo $colorFondo ?>">
+<body style="background:">
     <div class="container">
-        <div class="pseudocontainer">
+        <div class="header">
+                 <img src="<?php echo $imagen; ?>" class="estaciones" alt="Estación del año">
+        </div>
+        <div class="pseudocontainer" style="background: <?php echo $colorFondo?>">
             <h1 class="title">Portfolio</h1>
             <hr class="line"><br>
             <img src="yo.jpg" class="image" alt="Foto personal">
             <hr class="line">
         </div>
-        <div class="pseudocontainer">
+        <div class="pseudocontainer second" style="background: <?php echo $colorFondo?>">
             <div class="info">
                 <ul>
                     <li>
@@ -65,9 +70,6 @@
                     <li>
                         Córdoba | España
                     </li><br>
-                    <li id="imagenestacion">
-                        <img src="<?php echo $imagen; ?>" class="estaciones" alt="Estación del año">
-                    </li>
                 </ul>
             </div>
             <div class="info">

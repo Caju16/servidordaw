@@ -1,81 +1,86 @@
-<?php 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <?php
+            // Determinar el mes y la imagen correspondiente
+            $mes = 'septiembre'; 
+            $imagen = '';
 
-    // DECLARAMOS LAS VARIABLES
+            switch ($mes) {
+                case 'marzo': case 'abril': case 'mayo':
+                    $imagen = 'primavera.jpg';
+                    break;
+                case 'junio': case 'julio': case 'agosto':
+                    $imagen = 'verano.jpeg';
+                    break;
+                case 'septiembre': case 'octubre': case 'noviembre':
+                    $imagen = 'otonio.jpg';
+                    break;
+                case 'diciembre': case 'enero': case 'febrero':
+                    $imagen = 'invierno.jpeg';
+                    break;
+                default:
+                    $imagen = 'default.jpg';
+                    break;
+            }
 
-    $num1 = 20;
-    $num2 = 10;
-    $num3 = 10;
+            $hora = '14:30';
+            $colorFondo = '';
 
-    // COMPARACIÓN DE NÚMEROS:
+            if ($hora >= '06:00' && $hora < '09:00') {
+                $colorFondo = '#5087d4'; 
+            } elseif ($hora >= '09:00' && $hora < '12:00') {
+                $colorFondo = '#124996';
+            } elseif ($hora >= '12:00' && $hora < '18:00') {
+                $colorFondo = '#995a2f';
+            } elseif ($hora >= '18:00' && $hora < '21:00') {
+                $colorFondo = '#823c16';
+            } else {
+                $colorFondo = '#0d0d47';
+            }
 
-    // SI EL NUM1 ES MÁS PEQUEÑO QUE NUM2 Y 3, ENTRA
-
-    if ($num1 <= $num2 && $num1 <= $num3) {
-        if ($num2 <= $num3) {
-            echo "$num1, $num2, $num3";
-        } else {
-            echo "$num1, $num3, $num2";
-        }
-    } 
-
-    // SI EL NUM2 ES MÁS PEQUEÑO O IGUAL QUE NUM1 Y QUE NUM3, ENTRA
-
-    elseif ($num2 <= $num1 && $num2 <= $num3) {
-        if ($num1 <= $num3) {
-            echo "$num2, $num1, $num3";
-        } else {
-            echo "$num2, $num3, $num1";
-        }
-    } 
-
-    // SI NO SE CUMPLE NINGUNO, ENTRA AQUÍ
-
-    else {
-        if ($num1 <= $num2) {
-            echo "$num3, $num1, $num2";
-        } else {
-            echo "$num3, $num2, $num1";
-        }
-    }
-
-    // Definir la estación
-    $estacion = "primavera"; // Puede ser "verano", "otoño", "invierno", "primavera"
-
-    // Selección de imagen según la estación
-    $imagen = "";
-    if ($estacion == "verano") {
-        $imagen = "verano.jpeg";
-    } elseif ($estacion == "otoño") {
-        $imagen = "otonio.jpg";
-    } elseif ($estacion == "invierno") {
-        $imagen = "invierno.jpeg";
-    } elseif ($estacion == "primavera") {
-        $imagen = "primavera.jpg";
-    } 
-
-    echo "<img src='$imagen' alt='Imagen de $estacion' width=500px/>";
-
-    $hora_texto = "16:30";
-
-    $hora = DateTime::createFromFormat('H:i', $hora_texto);
-
-    $hora_amanecer = DateTime::createFromFormat('H:i', '07:00');
-    $hora_medianoche = DateTime::createFromFormat('H:i', '00:00');
-    $hora_medio_dia = DateTime::createFromFormat('H:i', '12:00');
-    $hora_noche = DateTime::createFromFormat('H:i', '20:00');
-
-
-    $color_fondo = "";
-
-
-    if ($hora >= $hora_amanecer && $hora < $hora_medio_dia) {
-        $color_fondo = "#d9ad6c";
-    } elseif ($hora >= $hora_medio_dia && $hora < $hora_noche) {
-        $color_fondo = "#6b4813"; 
-    } else {
-        $color_fondo = "#3d4570"; 
-    }
-
-
-    echo "<body style='background-color: $color_fondo;'>";
-?>
+    ?>
+</head>
+<body style="background:<?php echo $colorFondo ?>">
+    <div class="container">
+        <div class="pseudocontainer">
+            <h1 class="title">Portfolio</h1>
+            <hr class="line"><br>
+            <img src="yo.jpg" class="image" alt="Foto personal">
+            <hr class="line">
+        </div>
+        <div class="pseudocontainer">
+            <div class="info">
+                <ul>
+                    <li>
+                        Miguel Carmona Cicchetti
+                    </li><br>
+                    <li>
+                        24 años
+                    </li><br>
+                    <li>
+                        Córdoba | España
+                    </li><br>
+                    <li id="imagenestacion">
+                        <img src="<?php echo $imagen; ?>" class="estaciones" alt="Estación del año">
+                    </li>
+                </ul>
+            </div>
+            <div class="info">
+                <h2>Experiencias previas</h2><br><br>
+                <ul>
+                    <li>2012-2017: Educación Secundaria Obligatoria - Colegio Séneca</li><br>
+                    <li>2017-2019: Grado Medio - Sistemas Microinformáticos y Redes - I.E.S Fidiana</li><br>
+                    <li>2019-2021: Grado Superior - Animaciones 3D, Juegos y Entornos Interactivos - I.E.S Ángel de Saavedra</li><br>
+                    <li>2022-2024: Grado Superior - Desarrollo de Aplicaciones Multiplataforma - C.E.S Lope de Vega</li><br>
+                    <li>2024-Actual: Grado Superior - Desarrollo de Aplicaciones Web - I.E.S Gran Capitán</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

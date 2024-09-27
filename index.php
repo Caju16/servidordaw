@@ -43,6 +43,7 @@
     <div class="container">
         <a href="portfolio/index.html">Enlace a portfolio</a>
         <a href="random/index.html">Alumno aleatorio</a>
+        <a href="ejercicios">Index de ejercicios</a>
     </div>
 
 </body>

@@ -1,0 +1,52 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+.container{
+    width:100vw;
+    height:100vh;
+    background: #1c1c1c;
+    color:white;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+}
+
+hr{
+    padding:4px;
+    border:0;
+}
+
+#title{
+    padding:0;
+    border: 1px solid white;
+}
+
+.Botones{
+    display:flex;
+    width:100vw;
+    justify-content: space-evenly;
+}
+
+button{
+    background: none;
+    color: white;
+    border: 0;
+    transition: all 300ms;
+    cursor: pointer;
+    border: 1px solid white;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+button:hover{
+    transform: scale(1.2);
+    font-weight: bold;
+    border:0;
+    border-radius: 0;
+    border-bottom: 2px solid white;
+}

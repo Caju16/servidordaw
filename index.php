@@ -41,9 +41,10 @@
 <body>
     
     <div class="container">
-        <a href="portfolio/index.php">Enlace a portfolio</a>
-        <a href="random/index.html">Alumno aleatorio</a>
-        <a href="ejercicios">Index de ejercicios</a>
+        <a href="ejercicios/bucles">Bucles</a>
+        <a href="ejercicios/condicionales">Condicionales</a>
+        <a href="ejercicios/portfolio">Portfolio</a>
+        <a href="ejercicios/random">Ruleta alumno</a>
     </div>
 
 </body>

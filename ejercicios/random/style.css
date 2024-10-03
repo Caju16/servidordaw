@@ -28,8 +28,9 @@ hr{
 
 .Botones{
     display:flex;
-    width:100vw;
+    flex-direction: column;
     justify-content: space-evenly;
+    height:80vh;
 }
 
 button{
@@ -39,7 +40,7 @@ button{
     transition: all 300ms;
     cursor: pointer;
     border: 1px solid white;
-    padding: 3px;
+    padding: 10px;
     border-radius: 5px;
 }
 
@@ -49,4 +50,45 @@ button:hover{
     border:0;
     border-radius: 0;
     border-bottom: 2px solid white;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+a:hover{
+    border-bottom: 2px solid white;
+}
+
+.section{
+    display:flex;
+    width:100vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.alumnosaside{
+    width:60vw;
+    height: 80vh;
+    overflow: hidden;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.alumnos {
+    width: 30vw;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.todos{
+    font-size:70%;
+}
+
+.seleccion {
+    background-color: green;
 }

@@ -11,17 +11,35 @@
     <div class="container">
 
         <header class="titulo">
-            <h1>Javascript</h1>
+            <h1>Ruleta de 2º de DAW</h1>
             <br>
             <hr id="title">
         </header>
-        
-        <div class="alumnos"></div>
 
-        <div class="Botones">
-            <button value="azar">Random</button>
-            <button value="recargar">Mostrar todos</button>
-        </div>
+        <section class="section">
+
+            <aside class="control">        
+                <div class="Botones">
+                    <button onclick="mostrarRandom()">Random</button>
+                    <!-- <button onclick="mostrarTodos()">Mostrar todos</button> -->
+                    <button onclick="ruleta()">Ruleta</button>
+                    <button onclick="detener()">Detener Ruleta</button>
+                    <p><a href="https://github.com/carmonamiguel403/servidordaw/tree/main/ejercicios/random">Enlace al repositorio</a></p>
+                </div>
+            </aside>
+
+
+
+            <aside class="alumnosaside">
+                <div class="alumnos"></div>
+                <div class="todos"></div>
+            </aside>
+
+        </section>
+        
+        
+
+
         
     </div>
 

@@ -1,46 +1,83 @@
-
-
 // DECLARAR VARIABLE ALUMNOS
 let alumnos;
+let divAlumnos = document.getElementsByClassName('alumnos')[0];
+let divTodos = document.getElementsByClassName('todos')[0];
+let intervalo;
+let velocidad = 100;
+let velocidadInicial = 100;
+let decremento = 20;
 
-alumnos = ['Bermúdez González, Raúl', 'Borreguero Redondo, Carlos',
-     'Cañas González, Álvaro', 'Carmona Cicchetti, Miguel', 'Carrasco Castellano, Alejandro', 
-     'Cherif Mouaki Almabouada, Mostafa', 'Coronado Ortega, Alejandro', 'Delgado Morente, Juan Diego', 
-  'Escoto, García, Marlon Jafet', 'Fernández Ariza, Ángel', 'Fernández Arrayás, Alejandro', 'Fernández Balsera, Daniel', 
-  'Ferrer López,Jesús', 'Frías Rojas, Jesús', 'Galán Navas, Manuel', 'García Báez, Víctor', 'García Díaz, Lucía', 'Gonzalez Martínez, Adrián',
-    'Mariño Jiménez, Enrique'];
+
+alumnos = [
+  'Raúl Bermúdez González', 'Carlos Borreguero Redondo', 
+  'Álvaro Cañas González', 'Miguel Carmona Cicchetti', 
+  'Alejandro Carrasco Castellano', 'Mostafa Cherif Mouaki Almabouada', 
+  'Alejandro Coronado Ortega', 'Juan Diego Delgado Morente', 
+  'Marlon Jafet Escoto García', 'Ángel Fernández Ariza', 
+  'Alejandro Fernández Arrayás', 'Daniel Fernández Balsera', 
+  'Jesús Ferrer López', 'Jesús Frías Rojas', 
+  'Manuel Galán Navas', 'Víctor García Báez', 
+  'Lucía García Díaz', 'Adrián González Martínez', 
+  'Jesús López Funes', 'Enrique Mariño Jiménez',
+  'Oscar Martín-Castaño Carrillo', 'José María Mayén Pérez',
+  'Pablo Mérida Velasco', 'Héctor Mora Sánchez',
+  'Luis Pérez Cantarero', 'Carlos Romero Romero',
+  'Javier Ruiz Molero', 'Alejandro Vaquero Abad',
+  'Luis Miguel Villén Moyano'
+];
+
 
 
 // CON EL ARRAY YA ESTABLECIDO, AÑADIMOS INTERACTIVIDAD:
 
+  // MÉTODO PARA EL BOTÓN DE MOSTRAR TODO
+
+  //   function mostrarTodos() { 
+  //     clearInterval(intervalo);
+  //     velocidad = velocidadInicial;
+  //     divTodos.innerHTML = alumnos.join('<hr>');
+  // }
+
+  // MÉTODO PARA RANDOMIZAR
+
+    function mostrarRandom() { 
+      clearInterval(intervalo);
+      velocidad = velocidadInicial;
+      let alumnoAzar = alumnos[Math.floor(Math.random() * alumnos.length)]; 
+      divAlumnos.innerHTML = alumnoAzar;
+
+
+  }
+
+  // MÉTODO PARA LA RULETA
+
+  function ruleta(){
+    clearInterval(intervalo);
+
+    velocidad = Math.max(20, velocidad - decremento);
+
+    intervalo = setInterval(() => {
+          let alumnoAzar = alumnos[Math.floor(Math.random() * alumnos.length)];
+          divAlumnos.innerHTML = alumnoAzar;
+    }, velocidad);
+
+    if (velocidad == 20){
+      alert("No se puede aumentar más");
+    }
     
-    function mostrarTodos() { // MÉTODO PARA EL BOTÓN DE MOSTRAR TODO
-      var divAlumnos = document.getElementsByClassName('alumnos')[0]; // SELECCIONAMOS TODO LO QUE TENGA LA CLASE ALUMNOS, EMPEZANDO POR EL 0
-      divAlumnos.innerHTML = alumnos.join('<hr>'); // AÑADIMOS SALTOS DE LÍNEA PARA QUE SEA LEGIBLE
   }
 
+  // DETENER RULETA
 
-    function mostrarRandom() { // MÉTODO PARA RANDOMIZAR
-      var divAlumnos = document.getElementsByClassName('alumnos')[0]; // VOLVEMOS A SELECCIONAR EL DIV CON CLASE ALUMNOS
-      var alumnoAzar = alumnos[Math.floor(Math.random() * alumnos.length)]; // FUNCIÓN PARA RANDOMIZAR EL ALUMNO
-      divAlumnos.innerHTML = alumnoAzar; // ESCRIBIR EN PANTALLA EL ALUMNO
+  function detener(){
+    clearInterval(intervalo);
+    velocidad = velocidadInicial;
   }
 
+  //MÉTODO PARA CUANDO CARGA LA PÁGINA
 
-    window.onload = function() { //MÉTODO PARA CUANDO CARGA LA PÁGINA
+  window.onload = function() { 
 
-      // SELECCIONAMOS EL DIV Y ESCRIBIMOS EN ÉL
+    divTodos.innerHTML = alumnos.join('<hr>');
 
-      var mostrar = document.getElementsByClassName('alumnos')[0]; 
-      mostrar.innerHTML = alumnos.join('<hr>'); 
-
-      // SELECCIONAMOS AMBOS BOTONES
-
-      var botonRandom = document.querySelector('button[value="azar"]'); 
-      var botonRecargar = document.querySelector('button[value="recargar"]'); 
-
-      // AÑADIMOS LOS EVENTLISTENER PARA HACER LA FUNCIÓN RESPECTIVA DE CADA BOTÓN
-
-      botonRandom.addEventListener('click', mostrarRandom); 
-      botonRecargar.addEventListener('click', mostrarTodos);
   };

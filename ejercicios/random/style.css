@@ -87,6 +87,10 @@ a:hover{
 
 .todos{
     font-size:70%;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .seleccion {

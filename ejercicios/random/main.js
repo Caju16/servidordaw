@@ -50,8 +50,10 @@ alumnos = [
     let alumnoAzar = alumnos[Math.floor(Math.random() * alumnos.length)]; 
     divAlumnos.innerHTML = alumnoAzar;
 
+    // DESACTIVA AUDIO 1
     // ACTIVA PISTA DE AUDIO 2
-
+    
+    audio.pause();
     audio2.play();
 
     // DECLARA VARIABLE PARA SELECCIONAR TODOS LOS ELEMENTOS

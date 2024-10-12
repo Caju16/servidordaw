@@ -1,3 +1,12 @@
+
+<!-- 
+ *
+ *  Calendario con bucles
+ *  @author Miguel Carmona
+ * 
+ -->
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +15,10 @@
     <title>Calendario</title>
 </head>
 <body>
+    <h1>Enunciado: </h1>
+    <p>Dado el mes y año almacenados en variables, escribir un programa que muestre el
+        calendario mensual correspondiente. Marcar el día actual en verde y los festivos
+        en rojo.</p>
     <?php
         $mes = date('n');
         $año = date('Y');
@@ -17,12 +30,8 @@
         $indicePrimerDia = date('w', $primerDia);
 
         $festivos = [
-            '1-1',  
-            '25-12' 
+            '1-11' // Día de todos los santos 
         ];
-        echo "<p>Dado el mes y año almacenados en variables, escribir un programa que muestre el
-        calendario mensual correspondiente. Marcar el día actual en verde y los festivos
-        en rojo.</p>";
         echo "<h2>Calendario de $nombreMes $año</h2>";
         echo "<table border='1' cellpadding='10'>";
         echo "<tr>

@@ -1,3 +1,10 @@
+<!-- 
+ *
+ *  Sumar 3 primeros números
+ *  @author Miguel Carmona
+ * 
+ -->
+
 <?php 
     $num = 0;
     $suma = 0; 

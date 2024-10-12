@@ -1,3 +1,11 @@
+<!-- 
+ *
+ *  Tabla de colores
+ *  @author Miguel Carmona
+ * 
+ -->
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,42 +30,39 @@
     </style>
 </head>
 <body>
+        <h1>Enunciado: <br></h1>
+
+        <p>
+            Mostrar paleta de colores. Utilizar una tabla que muestre el color y el valor
+            hexadecimal que le corresponde. Cada celda será un enlace a una página que
+            mostrará un fondo de pantalla con el color seleccionado. ¿Puedes hacerlo con los 
+            conocimientos que tienes?
+        </p>
+
     <table>
         <tr>
         <?php
 
-        // DOCUMENTACIÓN
         const INCREMENTO = 15;
 
-        echo "<h1>Enunciado: <br></h1>";
 
-        echo "<p>
-                    Mostrar paleta de colores. Utilizar una tabla que muestre el color y el valor
-                    hexadecimal que le corresponde. Cada celda será un enlace a una página que
-                    mostrará un fondo de pantalla con el color seleccionado. ¿Puedes hacerlo con los
-                  
 
-                    conocimientos que tienes?
-              </p><br>";
-
-        $counter = 0; // Contador para saber cuántas celdas hay por fila
+        $counter = 0;
         for ($r = 0; $r <= 255; $r += INCREMENTO) {
             for ($g = 0; $g <= 255; $g += INCREMENTO) {
                 for ($b = 0; $b <= 255; $b += INCREMENTO) {
 
                     $hex = sprintf("#%02x%02x%02x", $r, $g, $b);
                     
-                    // Mostrar cada celda como un enlace
                     echo "<td>";
-                    echo "<a href='javascript:void(0);' onclick='abrirColor(\"$hex\")' style='color: black; text-decoration: none;'>" . $color . "</a>";  // Enlace a una nueva página
+                    echo "<a onclick='abrirColor(\"$hex\")'>" . $color . "</a>";  // Enlace a una nueva página
                     echo "<div><a href='javascript:void(0);' onclick='abrirColor(\"$hex\")'>" . $hex . "</a></div>";  // Mostrar el código hexadecimal
                     echo "<div class='color-box' style='background-color:$hex'></div>";  // Color de fondo
                     echo "</a>";
                     echo "</td>";
                     
-                    // Control para cerrar y abrir una nueva fila cada 6 celdas
                     $counter++;
-                    if ($counter % 6 == 0) {
+                    if ($counter % 15 == 0) {
                         echo "</tr><tr>";
                     }
                 }

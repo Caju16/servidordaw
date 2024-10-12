@@ -1,3 +1,10 @@
+<!-- 
+ *
+ *  Números del 1 al 10
+ *  @author Miguel Carmona
+ * 
+ -->
+
 <?php 
     $num = 0;
     

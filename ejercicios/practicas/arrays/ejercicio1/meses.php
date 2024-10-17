@@ -7,7 +7,7 @@
 
  $meses = array(
     "Enero" => 31,
-    "Febrero" => 28,
+    "Febrero" => array(28, 29),
     "Marzo" => 31,
     "Abril" => 30,
     "Mayo" => 31,
@@ -21,7 +21,11 @@
  );
 
  foreach ($meses as $clave=>$valor) {
-    echo "$clave tiene $valor dias ";
+   if ($clave == "Febrero") {
+      echo "$clave tiene " . $valor[0] . " y " . $valor[1] . " días <br/>";
+  } else {
+      echo "$clave tiene $valor días <br/>";
+  }
  };
 
 

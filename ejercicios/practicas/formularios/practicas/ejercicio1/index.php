@@ -44,6 +44,13 @@
 </head>
 <body>
     <?php
+
+        /*
+        * 
+        * @author: Miguel Carmona
+        *
+        */
+
         function get_easter_datetime($year) {
             $base = new DateTime("$year-03-21");
             $days = easter_days($year);

@@ -39,6 +39,11 @@
                     <li>2024-Actual: Grado Superior - Desarrollo de Aplicaciones Web - I.E.S Gran Capitán</li>
                 </ul>
             </div>
+            <div class="info">
+                <h2><a href="https://github.com/carmonamiguel403/servidordaw/tree/main/ejercicios/practicas/portfolio">
+                    Carpeta al repositorio
+                </a></h2>
+            </div>
         </div>
     </div>
 </body>

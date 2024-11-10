@@ -9,7 +9,7 @@ $primeros = [
 $segundos = [
     ["nombre" => "Solomillo de cerdo", "precio" => 12.00, "foto" => "https://imag.bonviveur.com/solomillo-de-cerdo-al-whisky.jpg"],
     ["nombre" => "Pechuga de pollo", "precio" => 10.50, "foto" => "https://i.blogs.es/debf2d/pechuga/450_1000.jpg"],
-    ["nombre" => "Merluza a la plancha", "precio" => 14.00, "foto" => "https://www.pescanova.es/wp-content/uploads/2023/01/receta-de-merluza-a-la-plancha-con-verduras.jpg"],
+    ["nombre" => "Merluza a la plancha", "precio" => 14.00, "foto" => "https://recetasdecocina.elmundo.es/wp-content/uploads/2023/07/merluza-a-la-plancha-receta.jpg"],
     ["nombre" => "Risotto de setas", "precio" => 11.50, "foto" => "https://www.arrozsos.es/wp-content/uploads/2022/10/Risotto-de-gambas-y-calamares-750x750.jpg"],
     ["nombre" => "Hamburguesa vegetariana", "precio" => 9.00, "foto" => "https://www.pequerecetas.com/wp-content/uploads/2009/04/hamburguesa-de-garbanzos-casera-receta.jpg"]
 ];

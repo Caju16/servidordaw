@@ -1,8 +1,8 @@
 <!-- 
- *
- *  Tabla de colores
- *  @author Miguel Carmona
- * 
+ 
+    Tabla de colores
+    @author Miguel Carmona
+ 
  -->
 
 
@@ -30,22 +30,11 @@
     </style>
 </head>
 <body>
-        <h1>Enunciado: <br></h1>
-
-        <p>
-            Mostrar paleta de colores. Utilizar una tabla que muestre el color y el valor
-            hexadecimal que le corresponde. Cada celda será un enlace a una página que
-            mostrará un fondo de pantalla con el color seleccionado. ¿Puedes hacerlo con los 
-            conocimientos que tienes?
-        </p>
-
     <table>
         <tr>
         <?php
 
         const INCREMENTO = 15;
-
-
 
         $counter = 0;
         for ($r = 0; $r <= 255; $r += INCREMENTO) {
@@ -55,9 +44,9 @@
                     $hex = sprintf("#%02x%02x%02x", $r, $g, $b);
                     
                     echo "<td>";
-                    echo "<a onclick='abrirColor(\"$hex\")'>" . $color . "</a>";  // Enlace a una nueva página
-                    echo "<div><a href='javascript:void(0);' onclick='abrirColor(\"$hex\")'>" . $hex . "</a></div>";  // Mostrar el código hexadecimal
-                    echo "<div class='color-box' style='background-color:$hex'></div>";  // Color de fondo
+                    echo "<a onclick='abrirColor(\"$hex\")'> </a>";
+                    echo "<div><a href='javascript:void(0);' onclick='abrirColor(\"$hex\")'>" . $hex . "</a></div>";
+                    echo "<div class='color-box' style='background-color:$hex'></div>";
                     echo "</a>";
                     echo "</td>";
                     

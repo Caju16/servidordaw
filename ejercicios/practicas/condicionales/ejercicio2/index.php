@@ -1,69 +1,46 @@
-<?php 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <?php
 
-    // $fechaActual = getdate();
-    
-    $m = 2;
-    $mes = "Inicio";
-    $dias = 0;
-    $anio = 2001;
+        $mes= 2;
+        $anio= 2024;
+        $dias= 0;
 
-    switch ($m){
-        case 1:
-            $mes = "Enero";
-            $dias = 31;
-            break;
-        case 2:
-            $mes = "Febrero";
-            if (($anio % 4 == 0 && $anio % 100 != 0) || ($anio % 400 == 0)) {
-                $dias = 29; 
-            } else {
-                $dias = 28; 
-            }
-            break;
-        case 3:
-            $mes = "Marzo";
-            $dias = 31;
-            break;
-        case 4:
-            $mes = "Abril";
-            $dias = 30;
-            break;
-        case 5:
-            $mes = "Mayo";
-            $dias = 31;
-            break;
-        case 6:
-            $mes = "Junio";
-            $dias = 30;
-            break;
-        case 7:
-            $mes = "Julio";
-            $dias = 31;
-            break;
-        case 8:
-            $mes = "Agosto";
-            $dias = 31;
-            break;
-        case 9:
-            $mes = "Septiembre";
-            $dias = 30;
-            break;
-        case 10:
-            $mes = "Octubre";
-            $dias = 31;
-            break;
-        case 11:
-            $mes = "Noviembre";
-            $dias = 30;
-            break;
-        case 12:
-            $mes = "Diciembre";
-            $dias = 31;
-            break;
-    }
-
-    echo 'El mes ', $mes, ' (',$m,') , tiene ', $dias, ' días'; 
+        switch($mes){
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                $dias = 31;
+                echo "El mes " . $mes . " del año " . $anio ." tiene " . $dias , " dias";
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                $dias = 30;
+                echo "El mes " . $mes . " del año " . $anio ." tiene " . $dias , " dias";
+                break;
+            case 2:
+                if (($anio % 4 == 0 && $anio % 100 != 0) || ($anio % 400 == 0)){
+                    $dias = 29;
+                    echo "El mes ". $mes . " del año " . $anio ." tiene " . $dias , " dias";
+                } else {
+                    $dias = 28;
+                    echo "El mes " . $mes . " del año " . $anio ." tiene " . $dias , " dias";
+                }
+        }
 
 
-
-?>
+    ?>
+</body>
+</html>

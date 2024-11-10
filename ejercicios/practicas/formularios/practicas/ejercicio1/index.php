@@ -45,8 +45,9 @@
 <body>
     <?php
 
-        /*
+        /**
         * 
+        * Calendario con formulario
         * @author: Miguel Carmona
         *
         */
@@ -86,7 +87,7 @@
         $months = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 
     ?>
-    <form action="" method="post" novalidate>
+    <form action="" method="post">
         <select name="meses">
             <?php 
                 foreach ($months as $month) {
@@ -115,14 +116,13 @@
     </div>
 
     <?php
-        $mesElegido = $_POST['meses'];
-        $anioElegido = $_POST['anios'];
-
-        if($mesElegido == NULL && $anioElegido == NULL){
+        if (!isset($_POST["enviar"])){
             $mesElegido = $monthTranslation[date('F')];
             $anioElegido = date('Y');
-        };
-
+        } else {
+            $mesElegido = $_POST['meses'];
+            $anioElegido = $_POST['anios'];
+        }
 
         $meses = [
             'Enero' => 1, 'Febrero' => 2, 'Marzo' => 3, 'Abril' => 4,

@@ -6,6 +6,12 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <?php
+        /**
+         *
+         *  FOTOS Y COLORES SEGÚN LA ESTACIÓN Y HORA
+         *  @author Miguel Carmona
+         * 
+        */
             // OBTENER HORARIO DE ESPAÑA Y TRADUCIR LOS MESES A ESPAÑOL:
             date_default_timezone_set('Europe/Madrid');
             setlocale(LC_TIME, 'es_ES.UTF-8');  

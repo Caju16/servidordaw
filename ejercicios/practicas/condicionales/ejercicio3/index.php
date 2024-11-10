@@ -1,5 +1,13 @@
 <?php
 
+        /**
+         *
+         *  OBTENER EDAD A PARTIR DE FECHA DE NACIMIENTO
+         *  @author Miguel Carmona
+         * 
+        */
+
+
     // CAMBIANDO EL MÉTODO EN EL QUE SE INTRODUCE LA FECHA (DÍA, MES, AÑO)
 
     // $fecha = "16/08/2000";

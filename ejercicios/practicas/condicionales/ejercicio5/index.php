@@ -1,4 +1,12 @@
 <?php
+
+    /**
+     *
+     *  ROLES ENTRE ADMIN Y USUARIO
+     *  @author Miguel Carmona
+     * 
+    */
+
 // Definir el rol: puede ser 'usuario' o 'admin'
 $rol = "admin"; 
 

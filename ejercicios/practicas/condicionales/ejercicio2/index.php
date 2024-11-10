@@ -8,6 +8,13 @@
 <body>
     <?php
 
+        /**
+         *
+         *  SABER CUÁNTOS DÍAS TIENE UN MES
+         *  @author Miguel Carmona
+         * 
+        */
+
         $mes= 2;
         $anio= 2024;
         $dias= 0;

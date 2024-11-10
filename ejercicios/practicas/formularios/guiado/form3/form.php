@@ -2,13 +2,13 @@
 
     /*
     * @author: Miguel Carmona
-    *
+    * Formulario con control de errores sobre el email
     *
     */
 
 
     $lProcesaFormulario = false;
-
+    $errorEmail = "";
 
     if(isset($_POST['enviar'])){
         $lProcesaFormulario = true;
@@ -22,6 +22,7 @@
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
             $lProcesaFormulario = false;
+            $errorEmail = "El email no tiene un formato válido.";
         }
 
         // MOSTRAR
@@ -30,11 +31,8 @@
         echo "Email: $email";
 
     } else {
-
-
-    // ARRAY INDEXADO QUE CONTIENE LOS GRUPOS
-    // $arrayGrupos = array("1º DAW","2º DAW", "1º ASIR", "2º ASIR"); 
-
+        echo $errorEmail . "<br/>";
+    }
 
 ?>
 
@@ -48,39 +46,15 @@
     <title>Document</title>
 </head>
 <body>
-    <?php 
-
-        if($lProcesaFormulario){
-            // RECOGER DATOS
-            $nombre = $_POST['nombre'];
-            $apellidos = $_POST['apellidos'];
-            $email = $_POST['email'];
-        } else {
-            
-        }
-    
-    
-    ?>
 
 
 
-    <form action="" method="post" novalidate>
 
-        <input type="text" name="nombre" id=""><br/>
-        <input type="text" name="apellidos" id=""><br/>
-        <input type="text" name="email" id=""><br/>
+    <form action="procesa5.php" method="post" novalidate>
 
-        <!-- <select name="grupos" id="">
-            <?php 
-                // foreach($arrayGrupos as $key => $valor){  
-
-                //     echo '<option value="'. $valor .'">'.$valor.'</option>';
-                    
-                // }
-            
-            ?>
-        </select><br/> -->
-
+        <input type="text" name="nombre" placeholder="nombre" id=""><br/>
+        <input type="text" name="apellidos" placeholder="apellidos" id=""><br/>
+        <input type="text" name="email" placeholder="email" id=""><br/>
         <input type="submit" name="enviar" value="enviar">
 
 
@@ -88,8 +62,4 @@
     
 </body>
 </html>
-<?php
-    }
-?>
-
 

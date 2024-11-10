@@ -15,18 +15,19 @@
 
     echo "datos del formulario: <br/> ";
 
-
-
-    foreach($_POST as $clave => $valor){
+    $email = $_POST['email'];
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "El formato del correo es incorrecto. <br/>";
+    } else {
+        $nombre = $_POST['nombre'];
+        $apellidos = $_POST['apellidos'];
         
-        if ($clave == "email" && !filter_var($valor, FILTER_VALIDATE_EMAIL)){
-            echo "El formato es el incorrecto ";
-        }
-            
-            
-        echo $valor;
-        echo "<br/>";
+        echo "Nombre: $nombre <br/>";
+        echo "Apellidos: $apellidos <br/>";
+        echo "Email: $email <br/>";
     }
+
+
 
 
 

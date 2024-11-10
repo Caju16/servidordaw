@@ -9,11 +9,16 @@
 
     <?php 
 
+    /**
+     * @Author Miguel Carmona
+     * Mostrar formulario con foreach
+     */
+
         $datos = array("nombre", "apellidos", "email");
 
         echo "<form action='procesa3.php' method='post'>";
 
-        foreach ($datosPersonales as $dato) {
+        foreach ($datos as $dato) {
             echo "<input type='text' name='$dato' placeholder='$dato' value=''/>";
         }
 

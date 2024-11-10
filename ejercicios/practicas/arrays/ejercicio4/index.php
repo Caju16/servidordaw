@@ -1,5 +1,9 @@
 <?php
-
+/**
+ *  Array mostrar menús disponibles
+ *  @author Miguel Carmona
+ * 
+ */
 $primeros = [
     ["nombre" => "Ensalada César", "precio" => 5.50, "foto" => "https://imag.bonviveur.com/ensalada-cesar-casera.jpg"],
     ["nombre" => "Sopa de Tomate", "precio" => 4.75, "foto" => "https://t1.uc.ltmcdn.com/es/posts/3/0/9/como_hacer_sopa_de_tomate_casera_25903_orig.jpg"],

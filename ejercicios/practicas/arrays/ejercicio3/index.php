@@ -1,4 +1,10 @@
 <?php
+/**
+ *  Array alumno aleatorio con su foto
+ *  @author Miguel Carmona
+ * 
+ */
+
 $alumnos = [
     'Raúl Bermúdez González' => 'https://adoma.es/wp-content/uploads/2013/07/gustavo.jpg',
     'Carlos Borreguero Redondo' => 'https://toughpigs.com/wp-content/uploads/2015/09/Gonzo-sweater-vest1.png',

@@ -1,6 +1,6 @@
 <!-- 
  *
- *  Calendario con bucles mejorado
+ *  Calendario con arrays
  *  @author Miguel Carmona
  * 
  -->
@@ -13,10 +13,6 @@
     <title>Calendario</title>
 </head>
 <body>
-    <h1>Enunciado: </h1>
-    <p>Dado el mes y año almacenados en variables, escribir un programa que muestre el
-        calendario mensual correspondiente. Marcar el día actual en verde y los festivos
-        en diferentes colores según su tipo (nacionales, comunidad, locales).</p>
     <?php
         $mes = date('n');
         $año = date('Y');
@@ -29,7 +25,8 @@
 
         $festivosNacionales = [
             '1-1', // Año Nuevo
-            '6-1'  // Reyes
+            '6-1',  // Reyes
+            '1-11'
         ];
         $festivosComunidad = [
             '28-2' // Día de Andalucía

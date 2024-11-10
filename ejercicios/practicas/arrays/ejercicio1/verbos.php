@@ -1,4 +1,11 @@
 <?php
+
+/**
+ *  Array verbos irregulares
+ *  @author Miguel Carmona
+ * 
+ */
+
 $irregular_verbs = [
     ["base" => "be", "past" => "was/were", "past_participle" => "been"],
     ["base" => "begin", "past" => "began", "past_participle" => "begun"],

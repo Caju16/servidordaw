@@ -1,4 +1,10 @@
 <?php
+/**
+ *  Array de las notas de los alumnos
+ *  @author Miguel Carmona
+ * 
+ */
+
 $alumnos = [
   'Raúl Bermúdez González', 'Carlos Borreguero Redondo', 
   'Álvaro Cañas González', 'Miguel Carmona Cicchetti', 

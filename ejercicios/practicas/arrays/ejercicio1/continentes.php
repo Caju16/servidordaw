@@ -1,5 +1,11 @@
-
 <?php
+
+/**
+ *  Array con información sobre continentes
+ *  @author Miguel Carmona
+ * 
+ */
+
 $potencias = [
     [
         'continente' => 'América del Norte',

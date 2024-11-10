@@ -17,33 +17,27 @@
 
     // COMPARACIÓN DE NÚMEROS:
 
-    // SI EL NUM1 ES MÁS PEQUEÑO QUE NUM2 Y 3, ENTRA
-
-    if ($num1 <= $num2 && $num1 <= $num3) {
-        if ($num2 <= $num3) {
-            echo "$num1, $num2, $num3";
+    if ($num1 >= $num2 && $num1 >= $num3){
+        if ($num2 >= $num3){
+            echo "1: " . $num1 . " . 2: " . $num2 . " . 3: " . $num3;
         } else {
-            echo "$num1, $num3, $num2";
+            echo "1: " . $num1  . " . 3: "  . $num3 . " . 2: "  . $num2;
         }
-    } 
+    }
 
-    // SI EL NUM2 ES MÁS PEQUEÑO O IGUAL QUE NUM1 Y QUE NUM3, ENTRA
-
-    elseif ($num2 <= $num1 && $num2 <= $num3) {
-        if ($num1 <= $num3) {
-            echo "$num2, $num1, $num3";
+    elseif ($num2 >= $num1 && $num2 >= $num3){
+        if ($num1 >= $num3){
+            echo "2: " . $num2 . " . 1: " . $num1 . " . 3: " . $num3;
         } else {
-            echo "$num2, $num3, $num1";
+            echo "2: " . $num2  . " . 3: "  . $num3 . " . 1: "  . $num1;
         }
-    } 
-    
-    // SI NO SE CUMPLE NINGUNO, ENTRA AQUÍ
-    
-    else {
-        if ($num1 <= $num2) {
-            echo "$num3, $num1, $num2";
+    }
+
+    elseif ($num3 >= $num1 && $num3 >= $num2){
+        if ($num1 >= $num2){
+            echo "3: " . $num3 . " . 1: " . $num1 . " . 2: " . $num2;
         } else {
-            echo "$num3, $num2, $num1";
+            echo "3: " . $num3  . " . 2: "  . $num2 . " . 1: "  . $num1;
         }
     }
 

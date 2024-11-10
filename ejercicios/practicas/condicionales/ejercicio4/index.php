@@ -6,10 +6,18 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <?php
-            // Determinar el mes y la imagen correspondiente
+            // OBTENER HORARIO DE ESPAÑA Y TRADUCIR LOS MESES A ESPAÑOL:
+            date_default_timezone_set('Europe/Madrid');
             setlocale(LC_TIME, 'es_ES.UTF-8');  
+
             $mes = strftime('%B'); 
+
+            // INICIALIZAR VARIABLE IMAGEN
+
             $imagen = '';
+
+            // COMPROBACIÓN SEGÚN LA VARIABLE MES.
+            // AJUSTAMOS CADA CASE SEGÚN LOS MESES.
 
             switch ($mes) {
                 case 'marzo': case 'abril': case 'mayo':
@@ -29,19 +37,24 @@
                     break;
             }
 
+            // OBTENER HORA E INICIALIZAR VARIABLE COLOR DEL FONDO
+
             $hora = date('H:i');
             $colorFondo = '';
 
+            // SI LA HORA ESTÁ DENTRO DE LAS DEFINIDIAS, REAJUSTA EL COLOR
+            // DEL FONDO
+
             if ($hora >= '06:00' && $hora < '09:00') {
-                $colorFondo = '#5087d4'; 
+                $colorFondo = '#5087d4ee'; 
             } elseif ($hora >= '09:00' && $hora < '12:00') {
-                $colorFondo = '#124996';
+                $colorFondo = '#124996ee';
             } elseif ($hora >= '12:00' && $hora < '18:00') {
-                $colorFondo = '#995a2f';
+                $colorFondo = '#995a2fee';
             } elseif ($hora >= '18:00' && $hora < '21:00') {
-                $colorFondo = '#823c16';
+                $colorFondo = '#823c05ee';
             } else {
-                $colorFondo = '#0d0d47';
+                $colorFondo = '#0d0d47ee';
             }
 
 

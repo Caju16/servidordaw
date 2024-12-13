@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #1c1c1c;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    font-size: 1.5rem;
+}
+
+.container > a:hover {
+    transform: scale(1.2);
+    text-decoration: underline white;
+}
+
+.container > a {
+    color: white;
+    text-decoration: none;
+    transition: all 300ms;
+}

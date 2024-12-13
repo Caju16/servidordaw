@@ -1,0 +1,8 @@
+Ticket de compra
+-----------------
+Producto: Bacon Crispy Gourmet
+Cantidad: 1
+Precio Unitario: 1.00 €
+Subtotal: 1.00 €
+-----------------
+Total: 1.00 €

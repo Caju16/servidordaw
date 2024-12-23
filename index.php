@@ -12,6 +12,5 @@
         <a href="ejercicios">Prácticas</a>
         <a href="ejercicios/random/navidad">Ruleta alumno</a>
     </div>
-
 </body>
 </html>

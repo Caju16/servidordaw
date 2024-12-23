@@ -10,7 +10,7 @@
 
     <div class="container">
         <a href="ejercicios">Prácticas</a>
-        <a href="ejercicios/random">Ruleta alumno</a>
+        <a href="ejercicios/random/navidad">Ruleta alumno</a>
     </div>
 
 </body>

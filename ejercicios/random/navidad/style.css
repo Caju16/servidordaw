@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+.container{
+    width:100vw;
+    height:100vh;
+    background-image: url('https://i0.wp.com/robertbryndza.com/wp-content/uploads/2014/11/christmas-wallpaper-1920x1080cozy-christmas-wallpapers-hd-1920x1080-px-cozy-christmas-cd-cyi33bdb.jpg?ssl=1');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color:white;
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+}
+
+.titulo > h1{
+    font-family: 'Mountains of Christmas', cursive;
+    color: #fef9e7;
+    text-shadow: 2px 2px 5px red;
+    font-size: 3rem;
+}
+
+.titulo h1::after {
+    content: "🎄";
+}
+
+hr{
+    padding:4px;
+    border:0;
+}
+
+#title{
+    padding:0;
+    border: 1px solid white;
+}
+
+.Botones{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height:80vh;
+}
+
+button{
+    background: linear-gradient(to bottom, #e63946, #d62828);
+    color: white;
+    font-family: 'Mountains of Christmas', cursive;
+    border: 2px solid #ffcf56;
+    transition: all 300ms;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #ffcf56;
+    color: #e63946;
+    transform: scale(1.1);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+a:hover{
+    border-bottom: 2px solid white;
+}
+
+.section{
+    display:flex;
+    width:100vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.alumnosaside{
+    width:60vw;
+    height: 80vh;
+    overflow: hidden;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.alumnos {
+    background-color: #ffebebcc; 
+    color: #a62626; 
+    font-family: 'Raleway', sans-serif;
+    width: 30vw;
+    height:10vh;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 2px solid #d62828;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+}
+
+.todos{
+    font-size: 0.6rem;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f0f8e8; /* Verde pastel claro */
+    color: #1b5e20; /* Verde oscuro */
+    font-family: 'Raleway', sans-serif;
+    justify-content: center;
+    border: 2px solid #4caf50;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    overflow-y: auto; /* Añadir scroll si hay mucho contenido */
+}
+
+.seleccion {
+    background-color: rgba(155,0,0,0.5);
+}
+
+@keyframes latir {
+    0% {transform: scale(1);}
+    50% {transform: scale(2);}
+    100% {transform: scale(1);}
+}
+
+.animacion {
+    animation-name: latir;
+    animation-duration: 0.5s;
+}
+
+@keyframes snow {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1.5em;
+    opacity: 1;
+    pointer-events: none; /* Para que no interfieran con clics */
+    animation: snow 10s linear infinite;
+}
+
+/* Copos individuales con diferentes posiciones y velocidades */
+.snowflake:nth-child(1) { left: 10%; animation-duration: 8s; font-size: 1.2em; }
+.snowflake:nth-child(2) { left: 20%; animation-duration: 10s; font-size: 1.5em; }
+.snowflake:nth-child(3) { left: 30%; animation-duration: 12s; font-size: 1.8em; }
+.snowflake:nth-child(4) { left: 40%; animation-duration: 9s; font-size: 1.3em; }
+.snowflake:nth-child(5) { left: 50%; animation-duration: 11s; font-size: 1.7em; }
+.snowflake:nth-child(6) { left: 60%; animation-duration: 8s; font-size: 1.2em; }
+.snowflake:nth-child(7) { left: 70%; animation-duration: 12s; font-size: 1.4em; }
+.snowflake:nth-child(8) { left: 80%; animation-duration: 9s; font-size: 1.6em; }
+.snowflake:nth-child(9) { left: 90%; animation-duration: 10s; font-size: 1.3em; }

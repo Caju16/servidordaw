@@ -1,6 +1,8 @@
 <?php
 # Importar modelo de abstracción de base de datos
-require_once('DBAbstractModel.php');
+namespace App\Models;
+
+use App\Models\DBAbstractModel;
 
 class Mascotas extends DBAbstractModel {
     private static $instancia;
@@ -70,11 +72,33 @@ class Mascotas extends DBAbstractModel {
     }
 
     public function edit() {
-
+        $fecha = new \DateTime();
+        $this->query = "UPDATE perros SET nombre = :nombre,
+                                            peso = :peso, 
+                                            raza = :raza, 
+                                            updated_at = :updated_at
+                                            WHERE id = :id"; // now() en vez de update_at
+        $this -> parametros['id'] = $this -> id;
+        $this -> parametros['nombre'] = $this -> nombre;
+        $this -> parametros['peso'] = $this -> peso;
+        $this -> parametros['raza'] = $this -> id;
+        $this -> parametros['updated_at'] = date('Y-m-d H:i:s', $fecha -> getTimestamp());
+        $this -> get_results_from_query();
+        $this -> mensaje = 'Perro modificado';
     }
 
-    public function delete() {
+    public function delete($id = "") {
+        $this->query = "DELETE FROM perros WHERE id = :id";
+        $this->parametros['id'] = $id; // $this->id;
+        $this->get_results_from_query();
+        $this->mensaje = 'Perro eliminado';
         
+    }
+
+    public function getAll(){
+        $this->query = "SELECT * FROM perros";
+        $this->get_results_from_query();
+        return $this->rows;
     }
 }
 

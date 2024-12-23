@@ -19,9 +19,19 @@ $mascota4 = Mascotas::getInstancia();
 
 $mascota = Mascotas::getInstancia();
 
-$mascota->setNombre("Firulai");
-$mascota->setPeso(400);
-$mascota->setRaza("San Bernardo");
+// $mascota->setNombre("Firulai");
+// $mascota->setPeso(400);
+// $mascota->setRaza("San Bernardo");
+
+$mascota -> get(9);
+
+$mascota->setNombre("Firula");
+
+$mascota -> edit();
+
+// $mascota->delete(7);
+
+var_dump($mascota);
 
 // $mascota->set();
 

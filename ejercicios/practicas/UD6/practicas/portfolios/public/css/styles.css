@@ -1,0 +1,14 @@
+body{
+    background-color: #1c1c1c;
+    color: white;
+    margin:0;
+}
+
+a {
+    color: white;
+}
+
+
+#formulario {
+    height: 92vh;
+}

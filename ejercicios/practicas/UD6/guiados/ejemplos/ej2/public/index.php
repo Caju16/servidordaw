@@ -16,9 +16,19 @@ $router->add([  'name' => 'primera',
                 'path' => '/^\/$/',
                 'action' => [PerrosController::class, 'IndexAction']]);
 
-$router->add([  'name' => 'añadir',
+$router->add([  'name' => 'segunda',
                 'path' => '/^\/mascotas\/add$/',
                 'action' => [PerrosController::class, 'AddAction']]);
+
+$router->add([  
+                'name' => 'tercera',
+                'path' => '/^\/mascotas\/delete(\?id=\d+)?$/',
+                'action' => [PerrosController::class, 'DeleteAction']]);
+                
+$router->add([  
+                'name' => 'cuarta',
+                'path' => '/^\/mascotas\/edit(\?id=\d+)?$/',
+                'action' => [PerrosController::class, 'EditAction']]);              
 
 $request = $_SERVER['REQUEST_URI'];
 $route = $router->match($request); // Comprobamos que coincide una ruta

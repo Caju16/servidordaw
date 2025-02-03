@@ -37,6 +37,10 @@ class Mascotas extends DBAbstractModel
         $this->raza = $raza ;
     }
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function getMensaje(){
         return $this->mensaje;
     }
@@ -90,9 +94,9 @@ class Mascotas extends DBAbstractModel
     }
 
     // Para eliminar el ultimo perro creado
-    public function delete(){
+    public function delete($id = ''){
         $this->query = "DELETE FROM perros WHERE id = :id";
-        $this->parametros['id'] = $this->id;
+        $this->parametros['id'] = $id;
         $this->get_results_from_query();
         $this->mensaje = 'Mascota eliminada';
     }

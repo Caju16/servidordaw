@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<?php include __DIR__ . '/../views/Navbar.php'; ?>
+    <?php include __DIR__ . '/../views/Navbar.php'; ?>
 
     <div class="form-container d-flex align-items-center flex-column mt-5">
         <h1>Edición de usuario</h1>

@@ -82,12 +82,12 @@ class Habilidades extends DBAbstractModel
         return $this->rows;
     }
 
-    public function edit($id=''){
+    public function edit(){
         $this->query="UPDATE skills SET habilidades = :nuevasHabilidades, visible = :visible, categorias_skills_categoria = :nuevasCategoriasD WHERE id = :id AND usuarios_id = :usuarios_id";
         $this->parametros['nuevasHabilidades'] = $this->habilidadesS;
         $this->parametros['visible'] = $this->visibleS;
         $this->parametros['nuevasCategoriasD'] = $this->categorias_skills_categoriaS;
-        $this->parametros['id'] = $id;
+        $this->parametros['id'] = $this->idS;
         $this->parametros['usuarios_id'] = $this->usuarios_idS;
         
         $this->get_results_from_query();
@@ -102,6 +102,21 @@ class Habilidades extends DBAbstractModel
         $this->parametros['usuarios_id'] = $this->usuarios_idS;
         $this->get_results_from_query();
         $this->mensaje = 'Skill eliminado con éxito.';
+        return $this->rows;
+    }
+
+    public function getUser($id = ''){
+        $this->query = "SELECT * FROM skills WHERE id = :id";
+        $this->parametros['id'] = $id;
+        $this->get_results_from_query();
+        if (count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'Registro encontrado';
+        } else {
+            $this->mensaje = 'Registro no encontrada';
+        }
         return $this->rows;
     }
 

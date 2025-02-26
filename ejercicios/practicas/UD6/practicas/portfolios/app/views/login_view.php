@@ -28,7 +28,6 @@
                 <button type="submit" class="btn btn-primary" id="save" name="enviar">Enviar</button>
             </form>
             <br/>
-            <a href="/">Volver a la zona pública</a>
             <div><?php echo $data['EstadoLogin']; ?></div>
         </div>
     </div>

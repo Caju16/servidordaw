@@ -33,9 +33,18 @@
     <div class="container my-5">
         <h1 class="text-center mb-4">Portfolio de <span class="text-primary"> <?php echo $data['usuario']['nombre']; ?> </span></h1>
 
-        <?php if (!empty($data['trabajos'])): ?>
+
             <section class="mb-5">
                 <h2 class="text-light text-center my-4">Trabajos</h2>
+
+                <?php if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', $_SERVER['REQUEST_URI'])[3]): ?>
+                    <div class="text-center m-4">
+                        <a href="/portfolios/crear/trabajo" class="btn btn-success">Añadir Trabajo</a>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($data['trabajos'])): ?>
+
                 <div class="row g-4 d-flex justify-content-center">
                     <?php 
                     $trabajosVisibles = array_filter($data['trabajos'], function($trabajo) {
@@ -75,17 +84,18 @@
                     <?php endif; ?>
                 </div>
             </section>
-        <?php endif;
-            if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', $_SERVER['REQUEST_URI'])[3]): ?>
-                <div class="text-center mt-4">
-                    <a href="/portfolios/crear/trabajo" class="btn btn-success">Añadir Trabajo</a>
-                </div>
         <?php endif; ?>
 
-        <!-- Proyectos Section -->
-        <?php if (!empty($data['proyectos'])): ?>
+        <!-- Proyectos Section -->     
             <section class="mb-5">
                 <h2 class="text-light text-center my-3">Proyectos</h2>
+                <?php if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
+                    <div class="text-center m-4">
+                        <a href="/portfolios/crear/project" class="btn btn-success">Añadir Proyecto</a>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($data['proyectos'])): ?>
                 <div class="row g-4 d-flex justify-content-center">
                     <?php 
                     $proyectosVisibles = array_filter($data['proyectos'], function($proyecto) {
@@ -128,17 +138,20 @@
                 </div>
                 
             </section>
-        <?php endif;
-             if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
-                <div class="text-center mt-4">
-                    <a href="/portfolios/crear/project" class="btn btn-success">Añadir Proyecto</a>
-                </div>
         <?php endif; ?>
 
+
         <!-- Habilidades Section -->
-        <?php if (!empty($data['habilidades'])): ?>
             <section class="mb-5">
                 <h2 class="text-light text-center my-3">Habilidades</h2>
+                <?php if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
+                    <div class="text-center m-4">
+                        <a href="/portfolios/crear/skill" class="btn btn-success">Añadir Habilidad</a>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($data['habilidades'])): ?>
+
                 <div class="row g-4 d-flex justify-content-center">
                     <?php 
                     $habilidadesVisibles = array_filter($data['habilidades'], function($habilidad) {
@@ -172,18 +185,21 @@
                     <?php endif; ?>
                 </div>
             </section>
-        <?php endif;
-             if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
-                <div class="text-center mt-4">
-                    <a href="/portfolios/crear/skill" class="btn btn-success">Añadir Habilidad</a>
-                </div>
         <?php endif; ?>
 
 
+
         <!-- Redes Sociales Section -->
-        <?php if (!empty($data['redes'])): ?>
             <section class="mb-5">
                 <h2 class="text-light text-center my-3">Redes sociales</h2>
+                <?php if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
+                    <div class="text-center m-4">
+                        <a href="/portfolios/crear/rrss" class="btn btn-success">Añadir Red Social</a>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($data['redes'])): ?>
+
                 <div class="row g-4 d-flex justify-content-center">
                     <?php foreach ($data['redes'] as $red): ?>
                         <div class="col-md-6 col-lg-4">
@@ -204,16 +220,11 @@
                     <?php endforeach; ?>
                 </div>
             </section>
-        <?php endif;
-            if (!empty($_SESSION['usuario']) && $_SESSION['usuario']['id'] == explode('/', string: $_SERVER['REQUEST_URI'])[3]): ?>
-            <div class="text-center mt-4">
-                <a href="/portfolios/crear/rrss" class="btn btn-success">Añadir Red Social</a>
-            </div>
         <?php endif; ?>
 
         <?php 
         if(empty($data['trabajos']) && empty($data['proyectos']) && empty($data['habilidades']) && empty($data['redes'])): ?>
-            <h3 class="text-center text-light">No hay contenido disponible</h3>
+            <h3 class="text-center text-danger">No hay contenido disponible</h3>
         <?php endif; ?>
                 
 

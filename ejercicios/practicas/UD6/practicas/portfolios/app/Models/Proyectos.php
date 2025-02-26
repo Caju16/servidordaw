@@ -88,14 +88,14 @@ class Proyectos extends DBAbstractModel
         return $this->rows;
     }
 
-    public function edit($id = ''){
+    public function edit(){
         $this->query = "UPDATE proyectos SET titulo = :nuevoTitulo, descripcion = :nuevaDescripcion, logo = :nuevoLogo, tecnologias = :nuevaTecnologias, visible = :visible WHERE id = :id AND usuarios_id = :usuarios_id";
         $this->parametros['nuevoTitulo'] = $this->tituloP;
         $this->parametros['nuevaDescripcion'] = $this->descripcionP;
         $this->parametros['nuevoLogo'] = $this->logoP;
         $this->parametros['nuevaTecnologias'] = $this->tecnologiasP;
         $this->parametros['visible'] = $this->visibleP;
-        $this->parametros['id'] = $id;
+        $this->parametros['id'] = $this->idP;
         $this->parametros['usuarios_id'] = $this->usuarios_idP;
 
         $this->get_results_from_query();
@@ -109,6 +109,21 @@ class Proyectos extends DBAbstractModel
         $this->parametros['id'] = $id;
         $this->get_results_from_query();
         $this->mensaje = 'Proyecto eliminado con éxito.';
+        return $this->rows;
+    }
+
+    public function getUser($id = ''){
+        $this->query = "SELECT * FROM proyectos WHERE id = :id";
+        $this->parametros['id'] = $id;
+        $this->get_results_from_query();
+        if (count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'Registro encontrado';
+        } else {
+            $this->mensaje = 'Registro no encontrada';
+        }
         return $this->rows;
     }
 }

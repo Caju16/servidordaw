@@ -96,7 +96,7 @@ class Trabajos extends DBAbstractModel
         return $this->rows;
     }
 
-    public function edit($id = ''){
+    public function edit(){
         $this->query = "UPDATE trabajos SET titulo = :nuevoTitulo, descripcion = :nuevaDescripcion, fecha_inicio = :nueva_fecha_inicio, fecha_final = :nueva_fecha_final, logros = :nuevosLogros, visible = :visible WHERE id = :id AND usuarios_id = :usuarios_id";
 
         $this->parametros['nuevoTitulo'] = $this->tituloT;
@@ -105,7 +105,7 @@ class Trabajos extends DBAbstractModel
         $this->parametros['nueva_fecha_final'] = $this->fecha_finalT;
         $this->parametros['nuevosLogros'] = $this->logrosT;
         $this->parametros['visible'] = $this->visibleT;
-        $this->parametros['id'] = $id;
+        $this->parametros['id'] = $this->idT;
         $this->parametros['usuarios_id'] = $this->usuarios_idT;
         
         $this->get_results_from_query();
@@ -119,6 +119,21 @@ class Trabajos extends DBAbstractModel
         $this->parametros['usuarios_id'] = $this->usuarios_idT;
         $this->get_results_from_query();
         $this->mensaje = 'Trabajo eliminado con éxito.';
+        return $this->rows;
+    }
+
+    public function getUser($id = ''){
+        $this->query = "SELECT * FROM trabajos WHERE id = :id";
+        $this->parametros['id'] = $id;
+        $this->get_results_from_query();
+        if (count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'Registro encontrado';
+        } else {
+            $this->mensaje = 'Registro no encontrada';
+        }
         return $this->rows;
     }
 

@@ -4,19 +4,22 @@ session_start();
 require_once "../boostrap.php";
 require_once "../vendor/autoload.php";
 require_once "../app/Controllers/UserController.php";
-require_once "../app/Controllers/PortController.php";
 
 // Usamos el espacio de nombre
 use App\Core\Router;
 use App\Controllers\UserController;
 use App\Controllers\PortController;
+use App\Controllers\TrabajosController;
+use App\Controllers\ProyectosController;
+use App\Controllers\SkillsController;
+use App\Controllers\RrssController;
 
 // Creamos una instancia de la clase Router
 $router = new Router();
 
 // Añadimos rutas al array
 $router->add([  'name' => 'index',
-                'path' => '/^\/$/',
+                'path' => '/^\/(\?.*)?$/',
                 'action' => [UserController::class, 'IndexAction']]);     
 
 $router->add([  'name' => 'Login',
@@ -46,62 +49,62 @@ $router->add([  'name' => 'List',
 
 $router->add([  'name' => 'CrearTrabajo',
                 'path' => '/^\/portfolios\/crear\/trabajo$/',
-                'action' => [PortController::class, 'createWorkAction'],
+                'action' => [TrabajosController::class, 'createWorkAction'],
                 'perfil' => ['user']]);
 
 $router->add([  'name' => 'CrearSkill',
                 'path' => '/^\/portfolios\/crear\/skill$/',
-                'action' => [PortController::class, 'createSkillAction'],
+                'action' => [SkillsController::class, 'createSkillAction'],
                 'perfil' => ['user']]);
 
 $router->add([  'name' => 'CrearRrrss',
                 'path' => '/^\/portfolios\/crear\/rrss$/',
-                'action' => [PortController::class, 'createRRSSAction'],
+                'action' => [RrssController::class, 'createRRSSAction'],
                 'perfil' => ['user']]);
 
 $router->add([  'name' => 'CrearProyecto',
                 'path' => '/^\/portfolios\/crear\/project$/',
-                'action' => [PortController::class, 'createProjectAction'],
+                'action' => [ProyectosController::class, 'createProjectAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'EditarTrabajo',
                 'path' => '/^\/portfolios\/edit\/trabajo\/\d+$/',
-                'action' => [PortController::class, 'editWorkAction'],
+                'action' => [TrabajosController::class, 'editWorkAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'BorrarTrabajo',
                 'path' => '/^\/portfolios\/delete\/trabajo\/\d+$/',
-                'action' => [PortController::class, 'deleteWorkAction'],
+                'action' => [TrabajosController::class, 'deleteWorkAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'EditarProyecto',
                 'path' => '/^\/portfolios\/edit\/project\/\d+$/',
-                'action' => [PortController::class, 'editProjectAction'],
+                'action' => [ProyectosController::class, 'editProjectAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'BorrarProyecto',
                 'path' => '/^\/portfolios\/delete\/project\/\d+$/',
-                'action' => [PortController::class, 'deleteProjectAction'],
+                'action' => [ProyectosController::class, 'deleteProjectAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'EditarSkill',
                 'path' => '/^\/portfolios\/edit\/skill\/\d+$/',
-                'action' => [PortController::class, 'editSkillAction'],
+                'action' => [SkillsController::class, 'editSkillAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'BorrarSkill',
                 'path' => '/^\/portfolios\/delete\/skill\/\d+$/',
-                'action' => [PortController::class, 'deleteSkillAction'],
+                'action' => [SkillsController::class, 'deleteSkillAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'EditarRrrss',
                 'path' => '/^\/portfolios\/edit\/rrss\/\d+$/',
-                'action' => [PortController::class, 'editRRSSAction'],
+                'action' => [RrssController::class, 'editRRSSAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'BorrarRrrss',
                 'path' => '/^\/portfolios\/delete\/rrss\/\d+$/',
-                'action' => [PortController::class, 'deleteRRSSAction'],
+                'action' => [RrssController::class, 'deleteRRSSAction'],
                 'perfil' => ['user']]);
 
 $router->add([ 'name' => 'EditarUsuario',
@@ -123,10 +126,10 @@ $route = $router->match($request); // Comprobamos que coincide una ruta
 
 if($route){
 
-    // if(in_array($_SESSION)){
-    //     if(!in_array($route['perfil'], $_SESSION['usuario']['perfil'])){
-    //         echo "No tienes permisos para acceder a esta ruta";
-    //         return;
+    // if(isset($route['perfil'])){
+    //     if(!isset($_SESSION['perfil']) || !in_array($_SESSION['perfil'], $route['perfil'])){
+    //         echo "No tienes permisos";
+    //         exit;
     //     }
     // }
 

@@ -12,11 +12,11 @@ class AuthController
     private $userId;
     private $users;
 
-    public function __construct($requestMethod, $userId)
+    public function __construct($requestMethod)
     {
         $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
         $this->users = Usuario::getInstancia();
+
     }
 
     public function loginFromRequest()
@@ -27,12 +27,11 @@ class AuthController
         // Determinamos si el JSON es válido
         if (json_last_error() !== JSON_ERROR_NONE) {
             http_response_code(400);
-            echo json_encode(["message" => "El JSON recibido no es válido.", "error" => json_last_error_msg()]);
-            exit;
+            echo json_encode(["message" => "El JSON recibido no es válido.", "error" => exit()]);
         }
 
-        $usuario = $input['usuario'];
-        $password = $input['password'];
+        $usuario = $input['usuario'] ?? '';
+        $password = $input['password'] ?? '';
         $dataUser = $this->users->login($usuario, $password);
 
         if ($dataUser) {
@@ -50,23 +49,31 @@ class AuthController
                 "nbf" => $notbofore_claim,
                 "exp" => $expire_claim,
                 "data" => array(
-                    "usuario" => $usuario,
-                    "id" => $dataUser['id']
+                    "usuario" => $usuario
                 )
             );
 
-            http_response_code(200);
             $jwt = JWT::encode($token, $key, 'HS256');
-            echo json_encode(
+            $res = json_encode(
                 array(
                     "message" => "Inicio de sesión exitoso.",
                     "jwt" => $jwt,
+                    "usuario" => $usuario,
                     "expireAt" => $expire_claim
                 )
             );
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = $res;
+
         } else {
-            http_response_code(401);
-            echo json_encode(array("message" => "Inicio de sesión fallido."));
+            $response['status_code_header'] = 'HTTP/1.1 401 Unauthorized';
+            $response['body'] = json_encode(["message" => "Usuario o contraseña incorrectos."]);
+        }
+
+        header($response['status_code_header']);
+        if ($response['body']) {
+            echo $response['body'];
         }
     }
 }

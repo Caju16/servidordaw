@@ -67,11 +67,11 @@ class Redes extends DBAbstractModel
         return $this->rows;
     }
 
-    public function edit($id=''){
+    public function edit(){
         $this->query = "UPDATE redes_sociales SET redes_socialescol = :redes_socialescol, url = :url WHERE id = :id AND usuarios_id = :usuarios_id";
         $this->parametros['redes_socialescol'] = $this->redes_socialescolR;
         $this->parametros['url'] = $this->urlR;
-        $this->parametros['id'] = $id;
+        $this->parametros['id'] = $this->idR;
         $this->parametros['usuarios_id'] = $this->usuarios_idR;
         $this->get_results_from_query();
         $this->mensaje = 'Red social actualizada con éxito.';
@@ -84,6 +84,21 @@ class Redes extends DBAbstractModel
         $this->parametros['usuarios_id'] = $this->usuarios_idR;
         $this->get_results_from_query();
         $this->mensaje = 'Red social eliminada con éxito.';
+        return $this->rows;
+    }
+
+    public function getUser($id = ''){
+        $this->query = "SELECT * FROM redes_sociales WHERE id = :id";
+        $this->parametros['id'] = $id;
+        $this->get_results_from_query();
+        if (count($this->rows) == 1) {
+            foreach ($this->rows[0] as $propiedad=>$valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'Registro encontrado';
+        } else {
+            $this->mensaje = 'Registro no encontrada';
+        }
         return $this->rows;
     }
 

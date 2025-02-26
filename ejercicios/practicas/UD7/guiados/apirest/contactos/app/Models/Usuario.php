@@ -46,7 +46,10 @@ class Usuario extends DBAbstractModel
             $this->getResultFromQuery();
         }
         if(count($this->rows) == 1){
-            $this->mensaje = 'Usuario encontrado';
+            foreach ($this->rows[0] as $propiedad => $valor) {
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = "Usuario encontrado";
         } else {
             $this->mensaje = 'Usuario no encontrado';
         }

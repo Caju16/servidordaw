@@ -9,91 +9,31 @@ class UserController extends BaseController
 {
     public function IndexAction()
     {
-        $lprocesaFormulario = false; // Flag para saber si hay que procesar el formulario o no
+        $data['ErrorNotFound'] = $data['userName'] = $data['encontrado'] = '';
 
-        $data['msjErrorNombre'] = $data['ErrorNotFound'] = $data['EstadoLogin'] = ''; // Inicializamos las variables de error
-        $data['userName'] = $data['userLastName'] = $data['encontrado'] = []; // Inicializamos la variable username y encontrado como array
+        $usuario = Usuarios::getInstancia();
 
-        $usuario = Usuarios::getInstancia(); // Instanciamos la clase Usuarios
+        $data['usuarios'] = $usuario->getAll(); 
+        $data['encontrado'] = $usuario->getUserByName($_GET['nombre'] ?? '');
 
-        $data['usuarios'] = $usuario->getAll(); // Obtenemos todos los usuarios
+        if (empty($data['encontrado'])) {
+            $data['ErrorNotFound'] = 'No se ha encontrado ningún usuario con ese nombre';
+        }
 
-        $usuarioSesion = $_SESSION['usuario'] ?? null; // Comprobamos si hay un usuario en sesión
+
+        $usuarioSesion = $_SESSION['usuario'] ?? null;
 
         $usuariosFiltrados = [];
         
-        foreach ($data['usuarios'] as $u) {
+        foreach ($data['encontrado'] as $u) {
             if (($usuarioSesion && $u['id'] == $usuarioSesion['id']) || $u['visible']) {
                 $usuariosFiltrados[] = $u;
-            }
-        }
-        
-        $data['usuarios'] = $usuariosFiltrados;
-
-
-        if(isset($_POST['nombre']) || isset($_POST['apellidos'])){
-
-            // Si se ha enviado el formulario, guardamos las variables
-            
-            $data['userName'] = $_POST['nombre']; 
-            $data['userLastName'] = $_POST['apellidos']; 
-        } else {
-            // Si no se ha enviado el formulario, las variables estarán vacías
-
-            $data['userName'] = ''; 
-            $data['userLastName'] = ''; 
+                $data['encontrado'] = $usuariosFiltrados;
+            } 
         }
 
         if (!empty($_POST)) {
-            $lprocesaFormulario = true; // Si se ha enviado el formulario, cambiamos el flag a true
-
-            $data['nombre'] = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING); // Saneamos las variables
-            $data['apellidos'] = filter_input(INPUT_POST, 'apellidos', FILTER_SANITIZE_STRING); 
-
-            // Capitalizamos el texto
-
-            $data['nombre'] = Config::capitalizarTexto($data['nombre']);
-            $data['apellidos'] = Config::capitalizarTexto($data['apellidos']);
-
-
-            $nombreSinTildes = Config::quitarTildes($data['nombre']);
-            $apellidosSinTildes = Config::quitarTildes($data['apellidos']);
-
-
-            if (empty($data['nombre'])) {
-                $lprocesaFormulario = false;
-                $data['msjErrorNombre'] = 'El campo nombre no puede estar vacío';
-            }
-      
-            if ($lprocesaFormulario) {
-                // Recorremos los usuarios y si el nombre coincide con el nombre introducido, guardamos el usuario en la variable encontrado
-
-                foreach($data['usuarios'] as $item){
-
-                    $nombreUsuarioSinTildes = Config::quitarTildes($item['nombre']);
-                    $apellidoUsuarioSinTildes = Config::quitarTildes($item['apellidos']);
-
-                    // Si se proporciona el nombre y los apellidos, buscamos el registro que coincida con ambos
-
-                    if (!empty($data['apellidos'])) {
-                        if ($nombreSinTildes == $nombreUsuarioSinTildes && $apellidosSinTildes == $apellidoUsuarioSinTildes) {
-                            $data['encontrado'][] = $usuario->get($item['id']);
-                        }
-                    } else {
-                        // Si sólo se proporciona el nombre, buscamos todos los registros que coincidan con él
-                        if ($nombreSinTildes == $nombreUsuarioSinTildes) {
-                            $data['encontrado'][] = $usuario->get($item['id']);
-                        }
-                    }
-
-                }
-
-                // Si no se ha encontrado ningún usuario, mostramos un mensaje de error
-                
-                if (empty($data['encontrado'])) {
-                    $data['ErrorNotFound'] = 'No se ha encontrado el usuario';
-                }  
-            } 
+            $data['userName'] = $_GET['nombre'] ?? '';
         } 
 
         $this->renderHTML('../app/views/public_view.php', $data);
@@ -101,6 +41,11 @@ class UserController extends BaseController
 
     public function LoginAction()
     {
+
+        if(!empty($_SESSION['usuario'])){
+            header("Location: /");
+            exit;
+        }
 
         $usuario = Usuarios::getInstancia(); 
 
@@ -151,6 +96,10 @@ class UserController extends BaseController
 
     public function RegisterAction()
     {
+        if(!empty($_SESSION['usuario'])){
+            header("Location: /");
+            exit;
+        }
 
         $usuario = Usuarios::getInstancia(); 
 
@@ -278,12 +227,6 @@ class UserController extends BaseController
                 $data['msjErrorResumen'] = 'El resumen no puede tener más de 1024 caracteres';
                 $lprocesaFormulario = false;
             }
-
-            // if (empty($data['pic'])) {
-            //     $lprocesaFormulario = false;
-            //     $data['msjErrorPic'] = 'El campo foto no puede estar vacío';
-            // }
-
         }
 
         
@@ -404,8 +347,7 @@ class UserController extends BaseController
             }
 
             if (empty($data['nuevoEmail'])) {
-                $lprocesaFormulario = false;
-                $data['msjErrorEmail'] = 'El campo email no puede estar vacío';
+                $data['nuevoEmail'] = $data['usuario']['email'];
             } else if (!filter_var($data['nuevoEmail'], FILTER_VALIDATE_EMAIL)){
                 $data['msjErrorEmail'] = "El formato del email no es valido";
                 $lprocesaFormulario = false;
@@ -416,6 +358,8 @@ class UserController extends BaseController
                 $data['msjErrorEmail'] = 'El email no puede tener más de 64 caracteres';
                 $lprocesaFormulario = false;
             }
+
+            // var_dump($usuarios->isEmailValid($data['nuevoEmail']));die();
 
             if (empty($data['nuevaPassword'])) {
                 $data['nuevaPassword'] = $data['usuario']['password'];
@@ -444,6 +388,9 @@ class UserController extends BaseController
         }
 
         if($lprocesaFormulario){
+
+            // var_dump($data['usuario']);die();
+            $usuarios->setId($data['usuario']['id']);
             $usuarios->setNombre($data['nuevoNombre']);
             $usuarios->setApellidos($data['nuevosApellidos']);
             $usuarios->setEmail($data['nuevoEmail']);
@@ -452,7 +399,7 @@ class UserController extends BaseController
             $usuarios->setResumenPerfil($data['nuevoResumen']);
             $usuarios->setFoto($data['nuevaPic']);
             $usuarios->setVisible($data['visible']);
-            $usuarios->edit($_SESSION['usuario']['id']);
+            $usuarios->edit();
             $data['EstadoRegistro'] = 'Usuario actualizado con éxito';
 
             header("Location: /");
@@ -472,6 +419,16 @@ class UserController extends BaseController
         }
 
         $usuarios = Usuarios::getInstancia();
+
+        $usuarioData = $usuarios->get($_SESSION['usuario']['id']);
+    
+        if ($usuarioData && !empty($usuarioData['foto'])) {
+            // Verificar que no sea la imagen por defecto antes de borrar
+            $defaultPhoto = 'uploads/default.png';
+            if ($usuarioData['foto'] !== $defaultPhoto && file_exists($usuarioData['foto'])) {
+                unlink($usuarioData['foto']); // Borrar la foto del sistema de archivos
+            }
+        }
 
         $usuarios->delete($_SESSION['usuario']['id']);
 
@@ -521,10 +478,7 @@ class UserController extends BaseController
             header('Location: /');
         }
     }
-
-
     
-
     public function LogoutAction()
     {
         session_start();

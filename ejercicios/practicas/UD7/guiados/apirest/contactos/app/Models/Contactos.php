@@ -40,7 +40,7 @@ class Contactos extends DBAbstractModel
         }
         if(count($this->rows) == 1){
             foreach ($this->rows[0] as $propiedad=>$valor){
-                $this->$propiedad = $valor;
+                // $this->$propiedad = $valor;
             }
             $this->mensaje = 'Usuario encontrado';
         } else {
@@ -82,23 +82,14 @@ class Contactos extends DBAbstractModel
 
     }
 
-    public function delete($id = ''){
-        if($id != ''){
-            $this->query = "DELETE FROM contactos WHERE id = :id";
-
-            $this->parametros['id'] = $id;
-
-            $this->getResultFromQuery();
+    public function delete($sh_data = array()){
+        foreach ($sh_data as $campo => $valor) {
+            $$campo = $valor;
         }
-        if(count($this->rows) == 1){
-            foreach ($this->rows[0] as $propiedad=>$valor){
-                $this->$propiedad = $valor;
-            }
-            $this->mensaje = 'Usuario borrado';
-        } else {
-            $this->mensaje = 'Usuario no encontrado';
-        }
-        return $this->rows[0] ?? null;
+        $this->query = "DELETE FROM contactos WHERE id = :id";
+        $this->parametros['id'] = $id;
+        $this->getResultFromQuery();
+        $this->mensaje = "Contacto eliminado";
     }
     
     

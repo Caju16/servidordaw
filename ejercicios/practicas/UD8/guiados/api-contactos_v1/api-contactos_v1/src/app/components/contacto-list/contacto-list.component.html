@@ -1,0 +1,26 @@
+<h2>Listado de contactos</h2>
+
+<a href="contactos/agregar">Agregar contacto</a>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Telefono</th>
+        <th>Email</th>
+        <!-- <th>Acciones</th> -->
+    </tr>
+    <tr *ngFor="let contacto of contactos">
+        <td>{{contacto.nombre}}</td>
+        <td>{{contacto.telefono}}</td>
+        <td>{{contacto.email}}</td>
+        <td>
+        </td>
+        <td>
+            <button (click)="borrar(contacto.id)">Eliminar</button>
+        </td>
+        <!-- <td>
+            <button (click)="update(contacto.id)">Editar</button>
+            <button (click)="delete(contacto.id)">El</button>
+        </td> -->
+    </tr>
+</table>

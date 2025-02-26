@@ -34,6 +34,9 @@ class Usuarios extends DBAbstractModel
     private $cuenta_activa;
 
     // Creo los setters
+    public function setId($id) {
+        $this->id = $id;
+    }
 
     public function setNombre($nombre) {
         $this->nombre = $nombre;
@@ -99,9 +102,9 @@ class Usuarios extends DBAbstractModel
             foreach ($this->rows[0] as $propiedad=>$valor) {
                 $this->$propiedad = $valor;
             }
-            $this->mensaje = 'Usuario encontrada';
+            $this->mensaje = 'Usuario encontrade';
         } else {
-            $this->mensaje = 'Usuario no encontrada';
+            $this->mensaje = 'Usuario no encontrade';
         }
         return $this->rows[0] ?? null;
     }
@@ -126,7 +129,7 @@ class Usuarios extends DBAbstractModel
         return $this->rows;
     }
 
-    public function edit($id=''){
+    public function edit(){
         $this->query = "UPDATE usuarios SET nombre = :nombre, apellidos = :apellidos, email = :email, password = :password, categoria_profesional = :categoria_profesional, resumen_perfil = :resumen_perfil, foto = :foto, visible = :visible WHERE id = :id";
         $this->parametros['nombre'] = $this->nombre;
         $this->parametros['apellidos'] = $this->apellidos;
@@ -136,7 +139,7 @@ class Usuarios extends DBAbstractModel
         $this->parametros['resumen_perfil'] = $this->resumen_perfil;
         $this->parametros['foto'] = $this->foto;
         $this->parametros['visible'] = $this->visible;
-        $this->parametros['id'] = $id;
+        $this->parametros['id'] = $this->id;
         $this->get_results_from_query();
         $this->mensaje = 'Usuario modificado';
         return $this->rows;
@@ -145,8 +148,23 @@ class Usuarios extends DBAbstractModel
     public function delete($id=''){
         $this->query = "DELETE FROM usuarios WHERE id = :id";
         $this->parametros['id'] = $id;
+        $this->parametros['usuarios_id'] = $id;
         $this->get_results_from_query();
+        // var_dump(get_results_from_query());die();
+
         $this->mensaje = 'Usuario eliminado';
+        return $this->rows;
+    }
+
+    public function getUserByName($nombre = ''){
+        $this->query = "SELECT * FROM usuarios WHERE nombre LIKE '%$nombre%'";
+        $this->parametros['nombre'] = '%'.$nombre.'%';
+        $this->get_results_from_query();
+        if(count($this->rows) > 0){
+            $this->mensaje = 'Usuario encontrado';
+        } else {
+            $this->mensaje = 'Usuario no encontrado';
+        }
         return $this->rows;
     }
 
@@ -160,6 +178,9 @@ class Usuarios extends DBAbstractModel
                     return false;
                 }
             }
+        }
+        if(count($this->rows) == 0){
+            return true;
         }
         return $this->rows;
     }

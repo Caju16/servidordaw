@@ -3,77 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publica</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Buscador de Perfiles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
     <?php include __DIR__ . '/../views/Navbar.php'; ?>
 
-    <div class="container text-center my-4">
-        <h1>Esta es la vista pública</h1>
-
-        <h2>Encontrar un usuario</h2>
-
-        <form action="" method="post" class="d-flex flex-column align-items-center">
-            <input type="text" name="nombre" id="nombre" value="<?php echo $data['userName'] ?>" placeholder="Nombre" class="mb-2">
-            <input type="text" name="apellidos" id="apellidos" value="<?php echo $data['userLastName'] ?>" placeholder="Apellidos" class="mb-2">
-            <input type="submit" value="Buscar" name="buscar" class="btn btn-primary">
-        </form>
+    <div class="container text-center my-5">
+        <h1 class="mb-4">🔍 Buscador de Perfiles</h1>
+        
+        <div class="search-box bg-secondary">
+            <h2 class="mb-3">Encuentra un Usuario</h2>
+            <form action="http://portfolios.local/" method="get" class="d-flex flex-column align-items-center">
+                <input type="text" name="nombre" id="nombre" value="<?php echo $_GET['nombre'] ?? ''; ?>" placeholder="Nombre" class="form-control mb-2 w-75 text-center">
+                <input type="submit" value="Buscar" class="btn btn-primary w-50">
+            </form>
+        </div>
     </div>
 
-    <br/>
-    <?php
-        if (empty($_POST) || empty($_POST['nombre'])) {
-            echo '<div class="d-flex flex-wrap justify-content-evenly m-5">';
-            foreach ($data['usuarios'] as $usuario) {
-                ?>
-                <div class="card mb-3" style="width: 18rem;">
-                    <img src="<?php echo $usuario['foto']; ?>" class="card-img-top" alt="Foto de <?php echo $usuario['nombre']; ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $usuario['nombre'] . ' ' . $usuario['apellidos']; ?></h5>
-                        <p class="card-text"><strong>Id:</strong> <?php echo $usuario['id']; ?></p>
-                        <p class="card-text"><strong>Categoría Profesional:</strong> <?php echo $usuario['categoria_profesional']; ?></p>
-                        <p class="card-text"><strong>Email:</strong> <?php echo $usuario['email']; ?></p>
-                        <p class="card-text"><strong>Resumen del Perfil:</strong> <?php echo $usuario['resumen_perfil']; ?></p>
-                        <p class="card-text"><strong>Visible:</strong> <?php echo $usuario['visible'] ? 'Sí' : 'No'; ?></p>
-                        <p class="card-text"><strong>Cuenta Activa:</strong> <?php echo $usuario['cuenta_activa'] ? 'Sí' : 'No'; ?></p>
-                        <a href="/portfolios/list/<?php echo $usuario['id']; ?>" class="btn btn-info">Ver Portfolio</a>
+    <?php if (!empty($data['ErrorNotFound'])): ?>
+        <h3 class="text-center text-danger mt-4">⚠️ <?php echo $data['ErrorNotFound']; ?></h3>
+    <?php endif; ?>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <?php foreach ($data['encontrado'] as $usuarioEncontrado): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card ">
+                        <img src="<?php echo $usuarioEncontrado['foto']; ?>" class="card-img-top" alt="Foto de <?php echo $usuarioEncontrado['nombre']; ?>">
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><?php echo $usuarioEncontrado['nombre'] . ' ' . $usuarioEncontrado['apellidos']; ?></h5>
+                            <p class="text-muted">👨‍💼 <?php echo $usuarioEncontrado['categoria_profesional']; ?></p>
+                            <p><strong>Email:</strong> <?php echo $usuarioEncontrado['email']; ?></p>
+                            <p><strong>Categoría:</strong> <?php echo $usuarioEncontrado['categoria_profesional']; ?></p>
+                            <p><strong>Resumen:</strong> <?php echo $usuarioEncontrado['resumen_perfil']; ?></p>
+                            <p><strong>🔵 Visible:</strong> <?php echo $usuarioEncontrado['visible'] ? 'Sí' : 'No'; ?></p>
+                            <p><strong>✅ Cuenta Activa:</strong> <?php echo $usuarioEncontrado['cuenta_activa'] ? 'Sí' : 'No'; ?></p>
+                            <a href="/portfolios/list/<?php echo $usuarioEncontrado['id']; ?>" class="btn btn-info">Ver Portfolio</a>
+                        </div>
                     </div>
                 </div>
-                <?php
-            }
-            echo '</div>';
-        }
-        
-        if (!$data['encontrado']) {
-            echo $data['ErrorNotFound'];
-        } else {
-            echo "Se ha encontrado el usuario: <br/>";
-            echo '<div class="d-flex flex-wrap justify-content-around">';
-            foreach ($data['encontrado'] as $usuarioEncontrado) {
-                ?>
-                <div class="card mb-3" style="width: 18rem;">
-                    <img src="<?php echo $usuarioEncontrado['foto']; ?>" class="card-img-top" alt="Foto de <?php echo $usuarioEncontrado['nombre']; ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?php echo $usuarioEncontrado['nombre'] . ' ' . $usuarioEncontrado['apellidos']; ?></h5>
-                        <p class="card-text"><strong>Categoría Profesional:</strong> <?php echo $usuarioEncontrado['categoria_profesional']; ?></p>
-                        <p class="card-text"><strong>Email:</strong> <?php echo $usuarioEncontrado['email']; ?></p>
-                        <p class="card-text"><strong>Resumen del Perfil:</strong> <?php echo $usuarioEncontrado['resumen_perfil']; ?></p>
-                        <p class="card-text"><strong>Visible:</strong> <?php echo $usuarioEncontrado['visible'] ? 'Sí' : 'No'; ?></p>
-                        <p class="card-text"><strong>Cuenta Activa:</strong> <?php echo $usuarioEncontrado['cuenta_activa'] ? 'Sí' : 'No'; ?></p>
-                        <a href="/portfolios/list/<?php echo $usuarioEncontrado['id']; ?>" class="btn btn-info">Ver Portfolio</a>
-                    </div>
-                </div>
-                <?php
-            }
-            echo '</div>';
-        }
-            
-    ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

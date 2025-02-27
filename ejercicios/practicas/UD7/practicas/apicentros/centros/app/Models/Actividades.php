@@ -30,7 +30,7 @@ class Actividades extends DBAbstractModel
         }
     
         if(isset($id)){
-            $this->query = "SELECT * FROM Instalaciones WHERE id_centro = :id_centro";
+            $this->query = "SELECT * FROM Actividades WHERE id_centro = :id_centro";
 
             // Cargamos los parametros
             $this->parametros['id_centro'] = $id;

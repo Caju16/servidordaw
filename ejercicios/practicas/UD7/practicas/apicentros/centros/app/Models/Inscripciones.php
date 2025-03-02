@@ -21,7 +21,35 @@ class Inscripciones extends DBAbstractModel
     }
 
     // Para obtener un usuario por id
-    public function get($sh_data = array()){}
+    public function get($sh_data = array()){
+    
+        // var_dump($sh_data); die();
+
+        foreach ($sh_data as $campo=>$valor) {
+            $$campo = $valor;
+        }
+    
+        if(isset($id)){
+            $this->query = "SELECT * FROM Inscripciones WHERE id_usuario = :id_usuario";
+
+            // Cargamos los parametros
+            $this->parametros['id_usuario'] = $id;
+
+        }
+
+        // Ejecutamos la consulta
+        $this->getResultFromQuery();
+
+        if(count($this->rows) == 1){
+            foreach ($this->rows[0] as $propiedad=>$valor){
+                $this->$propiedad = $valor;
+            }
+            $this->mensaje = 'Instalaciones encontrado';
+        } else {
+            $this->mensaje = 'Instalaciones no encontrado';
+        }
+        return $this->rows ?? null;
+    }
 
     public function set($sh_data = array()){
         if (!is_array($sh_data)) {

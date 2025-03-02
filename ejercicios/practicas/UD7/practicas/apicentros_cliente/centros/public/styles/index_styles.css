@@ -1,0 +1,264 @@
+/* Estilos generales del cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #121212;
+    color: #e0e0e0;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Contenedor de contenido */
+.content {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+}
+
+/* Sección individual */
+.section {
+    flex: 1;
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    padding: 15px;
+}
+
+/* Encabezados */
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+
+h2 {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h3 {
+    margin-top: 15px;
+    color: #007bff;
+}
+
+/* Listas */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #2c2c2c;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Información adicional */
+.info {
+    font-size: 14px;
+    color: #b0b0b0;
+}
+
+/* Botones de autenticación */
+#auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.login-button, .logout-button, .refresh-button, .edit-button, .delete-button, .new-reserva-button, .cancel-reserva-button, .mis-reservas-button, .mis-inscripciones-button, .new-inscripcion-button, .cancel-inscripcion-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+    background: #007bff;
+    color: white;
+}
+
+.login-button:hover {
+    background: #0056b3;
+}
+
+/* Botón de cierre de sesión */
+.logout-button {
+    background: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background: #c82333;
+}
+
+/* Botón de refrescar token */
+.refresh-button {
+    background: #ffa500;
+    color: white;
+}
+
+.refresh-button:hover {
+    background: #cc8400;
+}
+
+/* Botón de editar usuario */
+.edit-button {
+    background: #28a745;
+    color: white;
+}
+
+.edit-button:hover {
+    background: #218838;
+}
+
+/* Botón de eliminar usuario */
+.delete-button {
+    background: #ee0018;
+    color: white;
+}
+
+.delete-button:hover {
+    background: #c82333;
+}
+
+/* Botón de nueva reserva */
+.new-reserva-button {
+    background: #007bff;
+    color: white;
+}
+
+.new-reserva-button:hover {
+    background: #0056b3;
+}
+
+/* Botón de cancelar reserva */
+.cancel-reserva-button {
+    background: #dc3545;
+    color: white;
+}
+
+.cancel-reserva-button:hover {
+    background: #c82333;
+}
+
+/* Botón de mis reservas */
+.mis-reservas-button {
+    background: #17a2b8;
+    color: white;
+}
+
+.mis-reservas-button:hover {
+    background: #138496;
+}
+
+/* Botón de mis inscripciones */
+.mis-inscripciones-button {
+    background: #17a2b8;
+    color: white;
+}
+
+.mis-inscripciones-button:hover {
+    background: #138496;
+}
+
+/* Botón de nueva inscripción */
+.new-inscripcion-button {
+    background: #007bff;
+    color: white;
+}
+
+.new-inscripcion-button:hover {
+    background: #0056b3;
+}
+
+/* Botón de cancelar inscripción */
+.cancel-inscripcion-button {
+    background: #dc3545;
+    color: white;
+}
+
+.cancel-inscripcion-button:hover {
+    background: #c82333;
+}
+
+/* Formulario de búsqueda */
+#search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Fila del formulario */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+/* Grupo de formulario */
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background: #2c2c2c;
+    color: #e0e0e0;
+}
+
+/* Botón de búsqueda */
+.search-button {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-button:hover {
+    background: #0056b3;
+}
+
+/* Listado General */
+.listado-columns {
+    display: flex;
+    gap: 20px;
+}
+
+.listado-column {
+    flex: 1;
+}
+
+#user-info {
+    background: #2c2c2c;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+#user-info p {
+    margin: 5px 0;
+}

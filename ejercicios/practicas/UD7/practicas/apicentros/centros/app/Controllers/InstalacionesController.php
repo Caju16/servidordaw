@@ -46,10 +46,36 @@ class InstalacionesController
         }
     }
     
-    private function getInstalacionFilter(){
 
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+    private function getInstalacionFilter()
+    {
+        // Verificar si los datos vienen por GET
+        if (!empty($_GET)) {
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = $_GET;
+        } else {
+            // Si no hay datos en GET, intenta obtenerlos desde JSON en el cuerpo de la petición
+            $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
+            $result = $this->instalaciones->getByFilter($input);
+
+            if (!$result) {
+                return $this->notFoundResponse();
+            }
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode($result);
+            return $response;  
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("Error al decodificar JSON: " . json_last_error_msg());
+                return $this->unprocessableEntityResponse();
+            }
+
+            error_log("Recibidos datos por JSON: " . print_r($input, true));
+        }
+
+        // Obtener los resultados filtrados
         $result = $this->instalaciones->getByFilter($input);
 
         if (!$result) {
@@ -58,9 +84,25 @@ class InstalacionesController
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
-        return $response;  
-
+        return $response;
     }
+    
+    
+    // private function getInstalacionFilter(){
+
+    //     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+    //     $result = $this->instalaciones->getByFilter($input);
+
+    //     if (!$result) {
+    //         return $this->notFoundResponse();
+    //     }
+
+    //     $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    //     $response['body'] = json_encode($result);
+    //     return $response;  
+
+    // }
 
     private function getInstalacion($id = ''){
         $result = $this->instalaciones->get(['id' => $id]);
@@ -82,6 +124,12 @@ class InstalacionesController
             'status_code_header' => 'HTTP/1.1 404 Not Found',
             'body' => json_encode(['message' => 'Instalación no encontrada'], JSON_UNESCAPED_UNICODE)
         ];
+    }
+
+    private function unprocessableEntityResponse() {
+        $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
+        $response['body'] = json_encode(["error" => "Datos inválidos"]);
+        return $response;
     }
 
 }

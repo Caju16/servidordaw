@@ -56,7 +56,7 @@ class Actividades extends DBAbstractModel
             return null;
         }
     
-        $this->query = "SELECT nombre, descripcion, fecha_inicio, fecha_final, horario, plazas FROM Actividades";
+        $this->query = "SELECT id, nombre, descripcion, fecha_inicio, fecha_final, horario, plazas FROM Actividades";
         $this->parametros = [];
         $conditions = [];
     

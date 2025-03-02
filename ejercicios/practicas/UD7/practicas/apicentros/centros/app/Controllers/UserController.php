@@ -58,27 +58,74 @@ class UserController
         }
     }
     
-    private function getUsuario(){
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+    // private function getUsuario(){
+    //     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        if(empty($input)){
-            $result = $this->usuarios->getAll();
-            $response['status_code_header'] = 'HTTP/1.1 200 OK';
-            $response['body'] = json_encode($result);
-            return $response;
+    //     if(empty($input)){
+    //         $result = $this->usuarios->getAll();
+    //         $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    //         $response['body'] = json_encode($result);
+    //         return $response;
+    //     } else {
+
+    //         if (!$this->usuarios->get($input)) {
+    //             return $this->notFoundResponse();
+    //         }
+
+
+    //         $result = $this->usuarios->get($input);
+    //         $response['status_code_header'] = 'HTTP/1.1 200 OK';
+    //         $response['body'] = json_encode($result);
+    //         return $response;
+    //     }
+        
+    // }
+
+    private function getUsuario()
+    {
+        // Verificar si los datos vienen por GET
+        if (!empty($_GET)) {
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = $_GET;
         } else {
+            $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-            if (!$this->usuarios->get($input)) {
-                return $this->notFoundResponse();
+            if(empty($input)){
+                $result = $this->usuarios->getAll();
+                $response['status_code_header'] = 'HTTP/1.1 200 OK';
+                $response['body'] = json_encode($result);
+                return $response;
+            } else {
+
+                if (!$this->usuarios->get($input)) {
+                    return $this->notFoundResponse();
+                }
+
+
+                $result = $this->usuarios->get($input);
+                $response['status_code_header'] = 'HTTP/1.1 200 OK';
+                $response['body'] = json_encode($result);
+                return $response;
             }
 
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("Error al decodificar JSON: " . json_last_error_msg());
+                return $this->unprocessableEntityResponse();
+            }
 
-            $result = $this->usuarios->get($input);
-            $response['status_code_header'] = 'HTTP/1.1 200 OK';
-            $response['body'] = json_encode($result);
-            return $response;
+            error_log("Recibidos datos por JSON: " . print_r($input, true));
         }
-        
+
+        // Obtener los resultados filtrados
+        $result = $this->usuarios->get($input);
+
+        if (!$result) {
+            return $this->notFoundResponse();
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        return $response;
     }
 
     private function register()
@@ -118,16 +165,20 @@ class UserController
         try {
             $decoded = JWT::decode($jwt, new Key(KEY, 'HS256'));
             $idUser = $decoded->data->{0} ?? null;
+            $emailUser = $decoded->data->usuario ?? null;
 
         } catch (Exception $e) {
             return $this->unauthorizedResponse("Acceso denegado: " . $e->getMessage());
         }
 
-        $existingUser = $this->usuarios->get(['email' => $input['email']]);
-        if ($existingUser) {
-            $response['status_code_header'] = 'HTTP/1.1 409 Conflict';
-            $response['body'] = json_encode(['message' => 'Este usuario ya existe'], JSON_UNESCAPED_UNICODE);
-            return $response;
+        // $existingUser = $this->usuarios->get(['email' => $input['email']]);
+        if ($input['email'] !== $emailUser) {
+            $existingUser = $this->usuarios->get(['email' => $input['email']]);
+            if ($existingUser) {
+                $response['status_code_header'] = 'HTTP/1.1 409 Conflict';
+                $response['body'] = json_encode(['message' => 'Este usuario ya existe'], JSON_UNESCAPED_UNICODE);
+                return $response;
+            }
         }
 
         $usuarioRegistrado = $this->usuarios->get(['id' => $idUser]);
@@ -158,24 +209,58 @@ class UserController
 
     private function deleteUsuario()
     {
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        // Verificar si los datos vienen por GET
+        if (!empty($_GET['id'])) {  // Aseguramos que 'id' esté presente
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = ['id' => $_GET['id']];
+            $this->usuarios->delete($input);
+            return $this->successResponse("Usuario eliminado con éxito");
+        }
 
+        // Manejar el caso donde los datos vienen en JSON con JWT
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
         $jwt = explode(" ", $authHeader)[1] ?? null;
+
+        if (!$jwt) {
+            return $this->unauthorizedResponse("Acceso denegado: Token no proporcionado.");
+        }
 
         try {
             $decoded = JWT::decode($jwt, new Key(KEY, 'HS256'));
             $idUser = $decoded->data->{0} ?? null;
 
+            if (!$idUser) {
+                return $this->unprocessableEntityResponse("No se pudo obtener el ID del usuario.");
+            }
+
+            $this->usuarios->delete(['id' => $idUser]);
+            return $this->successResponse("Usuario eliminado con éxito");
+
         } catch (Exception $e) {
             return $this->unauthorizedResponse("Acceso denegado: " . $e->getMessage());
         }
-
-        $this->usuarios->delete(['id' => $idUser]);
-        
-
-        return $this->successResponse("Usuario eliminado con éxito");
     }
+
+
+    // private function deleteUsuario()
+    // {
+    //     $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
+    //     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+
+    //     $jwt = explode(" ", $authHeader)[1] ?? null;
+
+    //     try {
+    //         $decoded = JWT::decode($jwt, new Key(KEY, 'HS256'));
+    //         $idUser = $decoded->data->{0} ?? null;
+
+    //     } catch (Exception $e) {
+    //         return $this->unauthorizedResponse("Acceso denegado: " . $e->getMessage());
+    //     }
+
+    //     $this->usuarios->delete(['id' => $idUser]);
+
+    //     return $this->successResponse("Usuario eliminado con éxito");
+    // }
 
     private function refreshToken()
     {
@@ -263,6 +348,12 @@ class UserController
             'status_code_header' => 'HTTP/1.1 200 OK',
             'body' => json_encode(['message' => $message], JSON_UNESCAPED_UNICODE)
         ];
+    }
+
+    private function unprocessableEntityResponse() {
+        $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
+        $response['body'] = json_encode(["error" => "Datos inválidos"]);
+        return $response;
     }
 
 

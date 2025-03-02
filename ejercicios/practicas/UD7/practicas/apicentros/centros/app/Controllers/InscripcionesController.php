@@ -36,6 +36,10 @@ class InscripcionesController
                 $response = $this->deleteInscripcion($uri[3]);
                 break;
                 
+            case 'GET':
+                $response = $this->getInscripciones();
+                break;
+
             default:
                 $response = $this->notFoundResponse();
                 break;
@@ -45,6 +49,50 @@ class InscripcionesController
         if ($response['body']) {
             echo $response['body'];
         }
+    }
+
+    private function getInscripciones(){
+
+        if (!empty($_GET['id'])) {  // Aseguramos que 'id' esté presente
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = ['id' => $_GET['id']];
+            $result = $this->reservas->get($input);
+
+            if (!$result) {
+                return $this->notFoundResponse();
+            }
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode($result);
+            return $response;
+            
+
+        }
+
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
+
+        $jwt = explode(" ", $authHeader)[1] ?? null;
+
+        try {
+            $decoded = JWT::decode($jwt, new Key(KEY, 'HS256'));
+            $idUser = $decoded->data->{0} ?? null;
+
+        } catch (Exception $e) {
+            return $this->unauthorizedResponse("Acceso denegado: " . $e->getMessage());
+        }
+        
+        
+        $input['id'] = $idUser;
+
+        $result = $this->inscripciones->get(['id' => $idUser]);
+        
+        if (!$result) {
+            return $this->noData();
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        return $response;
     }
     
     private function nuevaInscripcion(){

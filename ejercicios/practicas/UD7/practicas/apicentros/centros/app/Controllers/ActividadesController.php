@@ -46,10 +46,30 @@ class ActividadesController
         }
     }
     
-    private function getActividadFilter(){
+    private function getActividadFilter()
+    {
+        // Verificar si los datos vienen por GET
+        if (!empty($_GET)) {
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = $_GET;
+        } else {
+            // Si no hay datos en GET, intenta obtenerlos desde JSON en el cuerpo de la petición
+            $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+            $result = $this->actividad->getByFilter($input);
 
+            if (!$result) {
+                return $this->notFoundResponse();
+            }
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode($result);
+            return $response;  
+
+            error_log("Recibidos datos por JSON: " . print_r($input, true));
+        }
+
+        // Obtener los resultados filtrados
         $result = $this->actividad->getByFilter($input);
 
         if (!$result) {
@@ -58,10 +78,9 @@ class ActividadesController
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
-        return $response;  
-
+        return $response;
     }
-
+    
     private function getActividad($id = ''){
         $result = $this->actividad->get(['id' => $id]);
 

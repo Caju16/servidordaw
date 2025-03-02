@@ -58,7 +58,7 @@ class Instalaciones extends DBAbstractModel
 
         // var_dump($sh_data); die();
     
-        $this->query = "SELECT nombre, descripcion, capacidad_maxima FROM Instalaciones";
+        $this->query = "SELECT id, nombre, descripcion, capacidad_maxima FROM Instalaciones";
         $this->parametros = [];
         $conditions = [];
     

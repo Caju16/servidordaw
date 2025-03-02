@@ -70,6 +70,22 @@ class ReservasController
 
     private function getReservas(){
 
+        if (!empty($_GET['id'])) {  // Aseguramos que 'id' esté presente
+            error_log("Recibidos datos por GET: " . print_r($_GET, true));
+            $input = ['id' => $_GET['id']];
+            $result = $this->reservas->get($input);
+
+            if (!$result) {
+                return $this->notFoundResponse();
+            }
+
+            $response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $response['body'] = json_encode($result);
+            return $response;
+            
+
+        }
+
         $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
 
         $jwt = explode(" ", $authHeader)[1] ?? null;

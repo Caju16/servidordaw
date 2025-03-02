@@ -4,124 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centros Cívicos</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
-        .container { display: flex; gap: 20px; }
-        .section { flex: 1; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px; }
-        h1 { text-align: center; color: #333; }
-        h2 { background: #007bff; color: white; padding: 10px; border-radius: 5px; text-align: center; }
-        h3 { margin-top: 15px; color: #007bff; }
-        ul { list-style: none; padding: 0; }
-        li { background: #f4f4f4; margin: 5px 0; padding: 10px; border-radius: 5px; }
-        .info { font-size: 14px; color: #555; }
-    </style>
+    <link rel="stylesheet" href="./styles/index_styles.css">
 </head>
 <body>
+    <div id="auth-buttons">
+        <button class="login-button" onclick="window.location.href='usuario/login'">Iniciar Sesión</button>
+        <button class="login-button" onclick="window.location.href='usuario/register'">Registrarse</button>
+        <button class="logout-button" id="logout-button" style="display:none;" onclick="cerrarSesion()">Cerrar Sesión</button>
+        <button class="refresh-button" id="refresh-button" style="display:none;" onclick="refrescarToken()">Refrescar Token</button>
+    </div>
+    <div class="section" id="gestion-usuario" style="display:none;">
+        <h2>Gestión de Usuario</h2>
+        <div id="user-info" style="display:none;">
+            <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+            <p><strong>Email:</strong> <span id="user-email"></span></p>
+        </div>
+        <button class="edit-button" onclick="window.location.href='usuario/edit'">Editar Usuario</button>
+        <button class="refresh-button" onclick="refrescarToken()">Actualizar Token</button>
+        <button class="logout-button" onclick="cerrarSesion()">Cerrar Sesión</button>
+        <button class="delete-button" onclick="eliminarUsuario()">Eliminar Usuario</button>
+    </div>
+    <div class="section" id="gestion-reservas" style="display:none;">
+        <h2>Gestión de Reservas</h2>
+        <button class="new-reserva-button" onclick="window.location.href='reserva/create'">Nueva Reserva</button>
+        <button class="mis-reservas-button" onclick="window.location.href='reservas/misreservas'">Mis Reservas</button>
+    </div>
+    <div class="section" id="gestion-inscripciones" style="display:none;">
+        <h2>Gestión de Inscripciones</h2>
+        <button class="new-inscripcion-button" onclick="window.location.href='inscripcion/create'">Nueva Inscripción</button>
+        <button class="mis-inscripciones-button" onclick="window.location.href='inscripciones/misinscripciones'">Mis Inscripciones</button>
+    </div>
     <h1>Información de Centros Cívicos</h1>
     <div class="container">
-        <div class="section" id="centros-section">
-            <h2>Centros Cívicos</h2>
-            <ul id="centros-list"></ul>
+        <div class="section" id="search-section">
+            <h2>Buscar Instalaciones y Actividades</h2>
+            <form id="search-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="search-nombre-instalacion">Nombre Instalación:</label>
+                        <input type="text" id="search-nombre-instalacion" name="nombreInstalacion" placeholder="Nombre Instalación...">
+                    </div>
+                    <div class="form-group">
+                        <label for="search-nombre-actividad">Nombre Actividad:</label>
+                        <input type="text" id="search-nombre-actividad" name="nombreActividad" placeholder="Nombre Actividad...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="search-descripcion-instalacion">Descripción Instalación:</label>
+                        <input type="text" id="search-descripcion-instalacion" name="descripcionInstalacion" placeholder="Descripción Instalación...">
+                    </div>
+                    <div class="form-group">
+                        <label for="search-descripcion-actividad">Descripción Actividad:</label>
+                        <input type="text" id="search-descripcion-actividad" name="descripcionActividad" placeholder="Descripción Actividad...">
+                    </div>
+                </div>
+                <button type="submit" class="search-button">Buscar</button>
+            </form>
         </div>
-        <div class="section">
-            <h2>Listado General</h2>
-            <h3>Instalaciones</h3>
-            <ul id="instalaciones-list"></ul>
-            <h3>Actividades</h3>
-            <ul id="actividades-list"></ul>
+        <div class="content">
+            <div class="section" id="centros-section">
+                <h2>Centros Cívicos</h2>
+                <ul id="centros-list"></ul>
+            </div>
+            <div class="section" id="listado-general">
+                <h2>Listado General</h2>
+                <div class="listado-columns">
+                    <div class="listado-column">
+                        <h3>Instalaciones</h3>
+                        <ul id="instalaciones-list"></ul>
+                    </div>
+                    <div class="listado-column">
+                        <h3>Actividades</h3>
+                        <ul id="actividades-list"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarCentros();
-            cargarInstalaciones();
-            cargarActividades();
-        });
 
-        function cargarCentros() {
-            fetch("http://apicentros.local/api/centros")
-                .then(response => response.json())
-                .then(centros => {
-                    let lista = document.getElementById("centros-list");
-                    centros.forEach(centro => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `<strong>${centro.nombre}</strong><br>
-                                        <span class="info">📍 ${centro.direccion}<br>
-                                        📞 Teléfono: ${centro.telefono}<br>
-                                        ⏰ Horario: ${centro.horario}</span>`;
-                        
-                        let sublista = document.createElement("ul");
-                        cargarInstalacionesCentro(centro.id, sublista);
-                        cargarActividadesCentro(centro.id, sublista);
-                        li.appendChild(sublista);
-                        lista.appendChild(li);
-                    });
-                })
-                .catch(error => console.error("Error cargando centros:", error));
-        }
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="./scripts/index_script.js"></script>
 
-        function cargarInstalacionesCentro(id, lista) {
-            fetch(`http://apicentros.local/api/centros/${id}/instalaciones`)
-                .then(response => response.json())
-                .then(instalaciones => {
-                    instalaciones.forEach(instalacion => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `<strong>🏛️ ${instalacion.nombre}</strong><br>
-                                        <span class="info">📌 Descripción: ${instalacion.descripcion}<br>
-                                        👥 Capacidad Máxima: ${instalacion.capacidad_maxima}</span>`;
-                        lista.appendChild(li);
-                    });
-                });
-        }
-
-        function cargarActividadesCentro(id, lista) {
-            fetch(`http://apicentros.local/api/centros/${id}/actividades`)
-                .then(response => response.json())
-                .then(actividades => {
-                    actividades.forEach(actividad => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `<strong>🎭 ${actividad.nombre}</strong><br>
-                                        <span class="info">📌 Descripción: ${actividad.descripcion}<br>
-                                        📅 Inicio: ${actividad.fecha_inicio} - Fin: ${actividad.fecha_final}<br>
-                                        ⏰ Horario: ${actividad.horario}<br>
-                                        👥 Plazas: ${actividad.plazas}</span>`;
-                        lista.appendChild(li);
-                    });
-                });
-        }
-
-        function cargarInstalaciones() {
-            fetch("http://apicentros.local/api/instalaciones")
-                .then(response => response.json())
-                .then(instalaciones => {
-                    let lista = document.getElementById("instalaciones-list");
-                    instalaciones.forEach(instalacion => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `<strong>🏛️ ${instalacion.nombre}</strong><br>
-                                        <span class="info">📌 Descripción: ${instalacion.descripcion}<br>
-                                        👥 Capacidad Máxima: ${instalacion.capacidad_maxima}</span>`;
-                        lista.appendChild(li);
-                    });
-                });
-        }
-
-        function cargarActividades() {
-            fetch("http://apicentros.local/api/actividades")
-                .then(response => response.json())
-                .then(actividades => {
-                    let lista = document.getElementById("actividades-list");
-                    actividades.forEach(actividad => {
-                        let li = document.createElement("li");
-                        li.innerHTML = `<strong>🎭 ${actividad.nombre}</strong><br>
-                                        <span class="info">📌 Descripción: ${actividad.descripcion}<br>
-                                        📅 Inicio: ${actividad.fecha_inicio} - Fin: ${actividad.fecha_final}<br>
-                                        ⏰ Horario: ${actividad.horario}<br>
-                                        👥 Plazas: ${actividad.plazas}</span>`;
-                        lista.appendChild(li);
-                    });
-                });
-        }
-    </script>
 </body>
 </html>

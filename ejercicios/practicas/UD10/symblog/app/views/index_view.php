@@ -7,10 +7,10 @@
             justify-content: center;
             align-items: center;
         }
-    </style>
+</style>
 
-    <?php
+<?php
 
-    echo "Hola Mundo";
+echo "Hola Mundo";
 
-    ?>
+?>

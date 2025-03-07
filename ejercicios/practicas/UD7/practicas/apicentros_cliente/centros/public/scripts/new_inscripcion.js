@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             estado: document.getElementById("estado").value
         };
 
+
         fetch("http://apicentros.local/api/inscripciones", {
             method: "POST",
             headers: {
@@ -31,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(responseData => {
             if (responseData.success) {
-                alert("Inscripción creada correctamente.");
-                window.location.href = "/";
+                // alert("Inscripción creada correctamente.");
             } else {
                 document.getElementById("msjErrorGeneral").textContent = "Error al crear la inscripción. Inténtelo de nuevo.";
             }

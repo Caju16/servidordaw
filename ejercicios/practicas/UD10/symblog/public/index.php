@@ -1,31 +1,17 @@
 <?php
 session_start();
-require_once "../vendor/autoload.php";
+if (!isset($_SESSION['auth'])) {
+    $_SESSION['auth'] = false;
+}
+require('../vendor/autoload.php');
+require "../bootstrap.php";
 
-use App\Core\Router;
-use App\Controllers\DefaultController;
-use App\Controllers\CargarController;
-use Laminas\Diactoros\ServerRequestFactory;
-use App\Controllers\PageController;
-use Laminas\Diactoros\Response;
+use App\Controllers\BlogsController;
+use App\Controllers\UsersController;
+use App\Models\Users;
+use Aura\Router\RouterContainer;
 
-$router = new Router();
-
-$router->add([  'name' => 'index',
-                'path' => '/^\/$/',
-                'action' => [DefaultController::class, 'IndexAction']]);
-                
-$router->add([  'name' => 'cargar',
-                'path' => '/^\/cargardatos$/',
-                'action' => [CargarController::class, 'IndexAction']]);    
-
-$router->add(array(
-    'name' => '',
-    'path' => '/^\/blogs\/nuevo$/',
-    'action' => [PageController::class, 'IndexAction'],
-));
-
-$request = ServerRequestFactory::fromGlobals(
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
     $_SERVER,
     $_GET,
     $_POST,
@@ -33,74 +19,65 @@ $request = ServerRequestFactory::fromGlobals(
     $_FILES
 );
 
-$route = $router->match($request->getUri()->getPath());
+// Crear un contenedor de enrutador
+$routerContainer = new RouterContainer();
+$map = $routerContainer->getMap();
 
-// var_dump($route);
+// Rutas con Aura Router
+$map->get('home', '/', ['controller' => BlogsController::class, 'action' => "indexAction", 'auth' => false]); 
+$map->get('about', '/about', ['controller' => BlogsController::class, 'action' => 'aboutAction', 'auth' => false]);
+$map->get('addblog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]); 
+$map->get('contact', '/contact', ['controller' => BlogsController::class, 'action' => 'contactAction', 'auth' => false]); 
+$map->get('show', '/show', ['controller' => BlogsController::class, 'action' => 'showAction', 'auth' => false]);
+//Router para registrar usuario 
+$map->post('saveUser', '/adduser', ['controller' => UsersController::class, 'action' => 'addUserAction', 'auth' => true]);
+$map->get('addUser', '/adduser', ['controller' => UsersController::class, 'action' => 'addUserAction', 'auth' => true]);
+//Router para loguear usuario
+$map->post('login', '/login', ['controller' => UsersController::class, 'action' => 'loginAction', 'auth' => false]);
+$map->get('loginForm', '/login', ['controller' => UsersController::class, 'action' => 'loginAction', 'auth' => false]);
 
-$response = new Response();
+// Router para el panel de admin 
+$map->get('admin', '/admin', ['controller' => UsersController::class, 'action' => 'adminAction', 'auth' => true]);
+// Router para cerrar sesión
+$map->get('logout', '/logout', ['controller' => UsersController::class, 'action' => 'logoutAction', 'auth' => true]);
+
+$map->get('registerForm', '/register', ['controller' => UsersController::class, 'action' => 'registerFormAction', 'auth' => false]);
+$map->post('register', '/register', ['controller' => UsersController::class, 'action' => 'registerAction', 'auth' => false]);
 
 
-if($route){
-    $controllerName = $route['action'][0];
-    $actionName = $route['action'][1];
-    $controller = new $controllerName;
-    $controller->$actionName($request, $response);
-}else{
-    $response->getBody()->write("No route");
-}
+$map->post('saveBlog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction' , 'auth' => true]);
 
-http_response_code($response->getStatusCode());
-foreach ($response->getHeaders() as $name => $values) {
-    foreach ($values as $value) {
-        header(sprintf('%s: %s', $name, $value), false);
+$map->post("Agregar comentario", "/postComment", ['controller' => BlogsController::class, 'action' => 'addCommentAction', 'auth' => false]);
+
+
+// Obtener el adaptador de Aura Router
+$matcher = $routerContainer->getMatcher();
+
+// Hacer coincidir la ruta
+$route = $matcher->match($request);
+if (!$route) {
+    echo 'error de ruta';
+} else {
+    $handlerData = $route->handler;
+    $controllerName = $handlerData['controller'];
+    $actionName = $handlerData['action'];
+    $auth = $handlerData['auth'];
+    $needsAuth = $handlerData['auth'] ?? false;
+    $sessionAuth = $_SESSION['auth'] ?? false;
+
+
+    if ($needsAuth && !$sessionAuth) {
+        header('location: /login');
+        exit();
     }
+        $controller = new $controllerName;
+        $response = $controller->$actionName($request);
+        // foreach ($response->getHeaders() as $name => $values) {
+        //     foreach ($values as $value) {
+        //         header(sprintf("%s: %s", $name, $value), false);
+        //     }
+        // }
+        // echo $response->getBody();
+    
+    
 }
-var_dump($request->getUri()->getPath());
-?>
-
-
-<?php
-
-// use App\Controllers\BaseController;
-// use App\Controllers\DatosController;
-// use Laminas\Diactoros\Response\RedirectResponse;
-// use Illuminate\Database\Capsule\Manager as Capsule;
-
-// require_once("../bootstrap.php");
-// require_once("../vendor/autoload.php");
-
-// use App\Core\Router;
-
-// $capsule = new Capsule;
-// $capsule->addConnection([
-//     'driver'    => 'mysql',
-//     'host'      => '127.0.0.1',
-//     'database'  => 'symblog', // Reemplaza con el nombre real de tu BD
-//     'username'  => 'root', // Usuario de la BD
-//     'password'  => '', // Contraseña de la BD
-//     'charset'   => 'utf8',
-//     'collation' => 'utf8_unicode_ci',
-//     'prefix'    => '',
-// ]);
-// $capsule->setAsGlobal();
-// $capsule->bootEloquent();
-
-// $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
-//     $_SERVER,
-//     $_GET,
-//     $_POST,
-//     $_COOKIE,
-//     $_FILES
-// );
-
-// $router = new Router();
-
-// // $router->add(array(
-// //     'name' => '',
-// //     'path' => '/^\/$/',
-// //     'action' => [BaseController::class, 'renderHTML'],
-// //     'perfil' => []
-// // ));
-
-// var_dump($request->getUri()->getPath());
-

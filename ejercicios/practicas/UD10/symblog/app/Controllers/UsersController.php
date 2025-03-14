@@ -35,8 +35,10 @@ class UsersController extends BaseController
             'comments' => $comments,
             'tags' => $tags,
             'auth' => $_SESSION['auth'] ?? false,
-            'user' => $user
+            'user' => $user,
+            'userName' => $_SESSION['userName'] ?? null // Obtiene el nombre del usuario de la sesión
         ];
+        
         return $data;
     }
 
@@ -53,6 +55,7 @@ class UsersController extends BaseController
             ]);
             $_SESSION['userId'] = $user->id;
             $_SESSION['auth'] = true;
+            $_SESSION['userName'] = $user->nombre; // Almacena el nombre del usuario en la sesión
             header('Location: /');
             exit();
         }
@@ -69,6 +72,7 @@ class UsersController extends BaseController
             if ($user && password_verify($_POST['password'], $user->password)) {
                 $_SESSION['auth'] = true;
                 $_SESSION['userId'] = $user->id;
+                $_SESSION['userName'] = $user->nombre; // Almacena el nombre del usuario en la sesión
                 header('Location: /');
                 exit();
             } else {

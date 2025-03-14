@@ -5,6 +5,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use App\Models\Blog;
 use App\Models\Comment;
+use App\Models\User;
 use Respect\Validation\Validator as v;
 
 
@@ -26,19 +27,25 @@ class BlogsController extends BaseController
         $comments = Comment::orderBy('created_at', 'desc')->take(5)->get(); // Obtener los últimos 5 comentarios
         $tags = Blog::distinct()->pluck('tags'); // Obtener todos los tags únicos
 
+        $user = null;
+        if (isset($_SESSION['userId'])) {
+            $user = User::find($_SESSION['userId']);
+        }
+
         $data = [
             'blogs' => $blogs,
             'comments' => $comments,
             'tags' => $tags,
-            'auth' => $_SESSION['auth'] ?? false
+            'auth' => $_SESSION['auth'] ?? false,
+            'user' => $user,
+            'userName' => $_SESSION['userName'] ?? null // Obtiene el nombre del usuario de la sesión
         ];
+        
         return $data;
     }
-    
+        
     public function indexAction()
     {
-
-
         $data = $this->getData();
         echo $this->twig->render('index_view.twig',  [
             'data' => $data,
@@ -48,7 +55,6 @@ class BlogsController extends BaseController
     public function aboutAction()
     {
         $data = $this->getData();
-
         echo $this->twig->render('about_view.twig',  [
             'data' => $data,
         ]);
@@ -111,7 +117,6 @@ class BlogsController extends BaseController
             'data' => $data,
         ]);
     }
-
 
     public function contactAction()
     {

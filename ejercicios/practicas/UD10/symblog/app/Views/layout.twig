@@ -16,6 +16,10 @@
         <a href="/about">About</a>
       </li>
 
+       <li>
+        <a href="/faq">FaQ</a>
+      </li>
+
       {% if data.auth == true %}
         <li>
           <a href="/admin">Admin</a>
@@ -33,6 +37,13 @@
       {% endif %}
     </ul>
   </nav>
+  <h1>
+    {% if data.auth == true %}
+      {{ data.userName }}
+    {% else %}
+      Invitado
+    {% endif %}
+  </h1>
 {% endblock %}
 
 {% block sidebar %}

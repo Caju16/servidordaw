@@ -29,6 +29,8 @@ $map->get('about', '/about', ['controller' => BlogsController::class, 'action' =
 $map->get('addblog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]); 
 $map->get('contact', '/contact', ['controller' => BlogsController::class, 'action' => 'contactAction', 'auth' => false]); 
 $map->get('show', '/show', ['controller' => BlogsController::class, 'action' => 'showAction', 'auth' => false]);
+$map->get('faq', '/faq', ['controller' => BlogsController::class, 'action' => 'showFaq', 'auth' => false]);
+
 //Router para registrar usuario 
 $map->post('saveUser', '/adduser', ['controller' => UsersController::class, 'action' => 'addUserAction', 'auth' => true]);
 $map->get('addUser', '/adduser', ['controller' => UsersController::class, 'action' => 'addUserAction', 'auth' => true]);
@@ -70,14 +72,8 @@ if (!$route) {
         header('location: /login');
         exit();
     }
-        $controller = new $controllerName;
-        $response = $controller->$actionName($request);
-        // foreach ($response->getHeaders() as $name => $values) {
-        //     foreach ($values as $value) {
-        //         header(sprintf("%s: %s", $name, $value), false);
-        //     }
-        // }
-        // echo $response->getBody();
+    $controller = new $controllerName;
+    $response = $controller->$actionName($request);
     
     
 }

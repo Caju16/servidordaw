@@ -16,7 +16,7 @@ class EmailSender {
 
     public function sendConfirmationMail($name, $surname, $email, $token) {
         $email = (new Email())
-            ->from('a22ayrema@iesgrancapitan.org')
+            ->from('a24cacimi@iesgrancapitan.org')
             ->to($email)
             ->priority(Email::PRIORITY_HIGH)
             ->subject('Bienvenido a mi app de Porfolios!')
